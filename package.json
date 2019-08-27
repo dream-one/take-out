@@ -1,9 +1,9 @@
 {
-  "name": "hello-world",
+  "name": "take-out",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open --hot",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

@@ -1,12 +1,19 @@
 <template>
-  <div id="app">
+  <div >
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">guan11yu</router-link>
     </div>
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
+<script>
+import Footer from './components/FootGuide/FooterGuide'
+export default {
+  components:{
+    Footer
+  }
+}
+</script>
 <style lang="stylus">
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif

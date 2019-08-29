@@ -1,19 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <div>
-
-  </div>
-</template>
-
-<script>
-export default {};
-</script>
-
-<style>
-</style>
-=======
-  <!-- 底部导航栏 -->
-    <div>
+   <div>
 <van-tabbar route active-color="#02a774"  v-model="active">
   <van-tabbar-item to='/msite' icon="shop"  >
     <span >首页</span>
@@ -45,7 +31,10 @@ export default {};
 
 </van-tabbar>
     </div>
+
 </template>
+  <!-- 底部导航栏 -->
+   
 <script>
 export default {
     data() {

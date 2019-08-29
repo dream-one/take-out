@@ -14,7 +14,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+<<<<<<< HEAD
       path: '/Msite',
+=======
+      path: '/msite',
+>>>>>>> 顶部
       component: Msite
     },
     {
@@ -22,6 +26,7 @@ export default new Router({
       component: login
     },
     {
+<<<<<<< HEAD
       path: '/Order',
       component: Order
     },
@@ -35,11 +40,30 @@ export default new Router({
     },
     {
       path: '/Shop',
+=======
+      path: '/order',
+      component: Order
+    },
+    {
+      path: '/profile',
+      component: Profile
+    },
+    {
+      path: '/search',
+      component: Search
+    },
+    {
+      path: '/shop',
+>>>>>>> 顶部
       component: Shop
     },
     {
       path: '/',
+<<<<<<< HEAD
       redirect: '/Msite'
+=======
+      redirect: '/msite'
+>>>>>>> 顶部
     }
   ],
   linkActiveClass:'mui-active'

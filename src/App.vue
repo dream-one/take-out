@@ -1,7 +1,11 @@
 <template>
+<<<<<<< HEAD
   <div >
     <div id="nav">
     </div>
+=======
+  <div>
+>>>>>>> 顶部
     <router-view/>
     <Footer></Footer>
   </div>
@@ -14,7 +18,11 @@ export default {
   }
 }
 </script>
+<<<<<<< HEAD
 <style lang="stylus">
+=======
+<style lang="stylus" scoped>
+>>>>>>> 顶部
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased

@@ -1,7 +1,14 @@
 <template>
+<!-- 头部导航栏 -->
   <van-nav-bar :title="title" left-text="返回" right-text="按钮" left-arrow>
     <div slot="left">
-      <slot name="screen">111</slot>
+      <slot name="screen"></slot>
+    </div>
+    <div slot="title">
+      <slot name="font"></slot>
+    </div>
+    <div slot="right">
+      <slot name="login"></slot>
     </div>
   </van-nav-bar>
 </template>
@@ -21,11 +28,5 @@ export default {
 .van-nav-bar
 .van-hairline--bottom
   background-color #02a774
-  .iconfont.icon.icon-sousuo {
- top: 6px;
- width: 40px;
- height: 53px;
- position: relative;
- left: -8px;
-}
+
 </style>

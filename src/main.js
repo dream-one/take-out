@@ -7,10 +7,10 @@ import 'vant/lib/index.css';
 
 
 import './assets/css/iconfont.css'
-import { Icon,NavBar  } from 'vant';
+import { Icon,NavBar,Swipe, SwipeItem  } from 'vant';
 
 Vue.use(Icon,NavBar );
-
+Vue.use(Swipe).use(SwipeItem);
 
 Vue.use(Vant);
 Vue.config.productionTip = false

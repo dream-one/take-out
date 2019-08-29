@@ -4,9 +4,6 @@
     <div slot="left">
       <slot name="screen"></slot>
     </div>
-    <div slot="title">
-      <slot name="font"></slot>
-    </div>
     <div slot="right">
       <slot name="login"></slot>
     </div>
@@ -16,9 +13,11 @@
 <script>
 export default {
     data(){
-        return {
-            title:""
+        return {     
         }
+    },
+    props:{
+      title:String
     },
   methods: {}
 };
@@ -28,5 +27,10 @@ export default {
 .van-nav-bar
 .van-hairline--bottom
   background-color #02a774
-
+  
+.van-nav-bar__title.van-ellipsis {//标题样式
+ position: relative;
+ top: 1px;
+ color: rgb(255, 255, 255);
+}
 </style>

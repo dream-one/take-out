@@ -1,7 +1,7 @@
 <template>
   <van-nav-bar :title="title" left-text="返回" right-text="按钮" left-arrow>
     <div slot="left">
-      <slot name="screen"></slot>
+      <slot name="screen">111</slot>
     </div>
   </van-nav-bar>
 </template>

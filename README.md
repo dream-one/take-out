@@ -8,10 +8,5 @@
   2. 将下载好的文件放入 'src/assets/css'中
   3. 在main.js中导入iconfont.css
   4. 引入Icon `import {Icon} from 'vant'`
-  5. 对照类名使用  `<van-tabbar-item to='/mesite' icon="shop"  >
-    <span >首页</span>
-    <template slot="icon"  slot-scope="props">
-      <van-icon size="20" class="iconfont" class-prefix='icon' name='waimaifuwu-shiyongfangbian' />
-    </template>
-  </van-tabbar-item>`
+  5. 对照类名使用 
 

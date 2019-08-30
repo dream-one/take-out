@@ -1,5 +1,8 @@
 <template>
 <div>
+  <Head>
+    <van-icon bind:click="this.$route.query.back()" name="arrow-left" size="25" slot="screen" color="#fff"/>
+  </Head>
   <body class="align">
     <div class="grid align__item">
       <div class="register">
@@ -48,7 +51,12 @@
 </template>
 
 <script>
-export default {};
+import Head from '../HeadTop/HeadTop'
+export default {
+  components:{
+    Head
+  }
+};
 </script>
 
 <style lang="scss" scoped>

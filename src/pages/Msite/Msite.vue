@@ -12,47 +12,58 @@
       <h5 slot="login">登录 | 注册</h5>
     </Head>
     <!-- 轮播图 -->
-    <van-swipe indicator-color="white">
+    <van-swipe indicator-color="#02a774">
       <van-swipe-item>
-        <div class="onecontain">
-          <ul>
+        <div>
+          <ul class="onecontain">
             <li v-for="(item,index) of imges" :key="index">
               <img :src="item.src" />
+              <span class="food-font">零食甜点</span>
             </li>
           </ul>
         </div>
       </van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
+      <van-swipe-item>
+        <ul class="onecontain">
+          <li v-for="(item,index) of imges1" :key="index">
+            <img :src="item.src" />
+            <span class="food-font">零食甜点</span>
+          </li>
+        </ul>
+      </van-swipe-item>
     </van-swipe>
+
+    <div>
+      <Shoplist></Shoplist>
+    </div>
   </div>
 </template>
 
 <script>
 import Head from "../HeadTop/HeadTop.vue";
+import Shoplist from '../../components/ShopList/shoplist.vue'
 export default {
   data() {
     return {
-      imges: [
-        { src: require("./img/1.jpg") },
-        { src: require("./img/2.jpg") },
-        { src: require("./img/3.jpg") },
-        { src: require("./img/4.jpg") },
-        { src: require("./img/5.jpg") },
-        { src: require("./img/6.jpg") },
-        { src: require("./img/7.jpg") },
-        { src: require("./img/8.jpg") }
-      ]
+      imges: [],
+      imges1: []
     };
   },
-  methods: {
-    mounted() {
-      for (let i = 0; i < 18; i++) {
-        console.log(i);
+  mounted() {
+    for (let i = 0; i < 15; i++) {
+      if (i > 7) {
+        this.imges1.push({ src: require(`./img/${i}.jpg`) });
+      } else {
+        this.imges.push({ src: require(`./img/${i + 1}.jpg`) });
+      }
+      if (i == 14) {
+        this.imges1.push({ src: require(`./img/1.jpg`) });
       }
     }
   },
   components: {
-    Head
+    Head,
+    Shoplist
   }
 };
 </script>
@@ -86,30 +97,30 @@ p:nth-child(1) {
 
 img {
   height: 100%;
-  overflow: hidden;
-  margin: 0 auto;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  width: 100%;
 }
 
 .onecontain {
-  height: 100%;
-  justify-content: space-between;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  padding: 10px;
-  height: 100%;
-  position: relative;
+  justify-content: center;
+  align-content: flex-start;
 }
 
 li {
-  justify-content: center;
-  margin: 5px 15px;
-  float: left;
+  flex: 1 1 auto;
+  margin: 15px;
+  width: 15%;
+  height: 32%;
+  text-align: center;
+}
+
+li {
+  .food-font {
+    font-size: 9px;
+    display: inline-block;
+    margin: 5 auto;
+  }
 }
 </style>

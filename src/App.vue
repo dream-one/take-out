@@ -4,7 +4,7 @@
 
 
     <router-view/>
-    <Footer></Footer>
+    <Footer v-show="$route.meta.Footshow"></Footer>
   </div>
 </template>
 <script>

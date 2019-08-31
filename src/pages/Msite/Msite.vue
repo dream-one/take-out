@@ -8,6 +8,7 @@
         class-prefix="icon"
         slot="screen"
         name="sousuo"
+        @click="test"
       />
       <h5 slot="login">登录 | 注册</h5>
     </Head>
@@ -42,6 +43,7 @@
 <script>
 import Head from "../HeadTop/HeadTop.vue";
 import Shoplist from '../../components/ShopList/shoplist.vue'
+
 export default {
   data() {
     return {
@@ -59,6 +61,12 @@ export default {
       if (i == 14) {
         this.imges1.push({ src: require(`./img/1.jpg`) });
       }
+    }
+  },methods:{
+    test(){
+      this.axios.get('/position/40.10038,116.36867').then(res => {
+        console.log(res)
+      })
     }
   },
   components: {

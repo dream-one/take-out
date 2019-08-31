@@ -51,10 +51,11 @@
             </form>
           </van-tab>
         </van-tabs>
-
-        <p class="prompt">温馨提示：未注册</p>
       </div>
     </div>
+        <div class="prompt">
+          <span>温馨提示：未注册就登录的默认注册</span>
+        </div>
   </body>
 </div>
 </template>
@@ -167,7 +168,7 @@ input {
   }
 }
 
-$grid-max-width: 25rem;
+$grid-max-width: 26rem;
 $grid-width: 100%;
 
 .grid {
@@ -278,7 +279,7 @@ input::-webkit-inner-spin-button {
   background-repeat: no-repeat;
 
   background-position: 0px 0px;
-  width: 101px;
+  width: 26%;
   height: 32px;
   left: 64%;
   top: 5px;
@@ -287,8 +288,12 @@ input::-webkit-inner-spin-button {
   // height: 20px; /*图片显示的高*/
 }
 
-.prompt{
- 
-} 
+.prompt {
+  position:absolute;
+  
+     margin: 25% 15%;
+}
+
+
 </style>
 

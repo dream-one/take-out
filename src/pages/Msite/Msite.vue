@@ -8,7 +8,7 @@
         class-prefix="icon"
         slot="screen"
         name="sousuo"
-        @click="test"
+        
       />
       <h5 slot="login">登录 | 注册</h5>
     </Head>
@@ -18,8 +18,8 @@
         <div>
           <ul class="onecontain">
             <li v-for="(item,index) of imges" :key="index">
-              <img :src="item.src" />
-              <span class="food-font">零食甜点</span>
+              <img :src="item.image_url" />
+              <span class="food-font">{{item.title}}</span>
             </li>
           </ul>
         </div>
@@ -27,8 +27,8 @@
       <van-swipe-item>
         <ul class="onecontain">
           <li v-for="(item,index) of imges1" :key="index">
-            <img :src="item.src" />
-            <span class="food-font">零食甜点</span>
+            <img :src="item.image_url" />
+            <span class="food-font">{{item.title}}</span>
           </li>
         </ul>
       </van-swipe-item>
@@ -42,8 +42,15 @@
 
 <script>
 import Head from "../HeadTop/HeadTop.vue";
-import Shoplist from '../../components/ShopList/shoplist.vue'
-
+import Shoplist from "../../components/ShopList/shoplist.vue";
+import {
+  apiAdress,
+  apiGetFood,
+  apiGetShopList,
+  apiLogin
+} from "../../request/api";
+import { Toast } from "vant";
+import { type } from 'os';
 export default {
   data() {
     return {
@@ -52,21 +59,19 @@ export default {
     };
   },
   mounted() {
-    for (let i = 0; i < 15; i++) {
-      if (i > 7) {
-        this.imges1.push({ src: require(`./img/${i}.jpg`) });
-      } else {
-        this.imges.push({ src: require(`./img/${i + 1}.jpg`) });
-      }
-      if (i == 14) {
-        this.imges1.push({ src: require(`./img/1.jpg`) });
-      }
-    }
-  },methods:{
-    test(){
-      this.axios.get('/position/40.10038,116.36867').then(res => {
-        console.log(res)
-      })
+    this.test()
+  },
+  methods: {
+    test() {
+
+      apiGetFood()
+        .then(res => {
+          this.imges=res.data.slice(0,(res.data.length/2))
+          this.imges1=res.data.slice(8,res.data.length)
+          console.log(this.imges);
+          console.log(res.data)          
+        })
+        .catch(err => Toast("数据获取失败"+err));
     }
   },
   components: {

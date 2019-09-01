@@ -5,10 +5,9 @@ import store from "./store";
 import Vant from "vant";
 import "vant/lib/index.css";
 import VueAMap from "vue-amap";
+import axios from "axios";
+Vue.prototype.axios = axios;
 
-import axios from 'axios'
-
-Vue.prototype.axios = axios
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
   key: "ae107fa1adca59b991afff51689232fe",

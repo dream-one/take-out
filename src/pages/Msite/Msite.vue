@@ -45,7 +45,6 @@ import Shoplist from "../../components/ShopList/shoplist.vue";
 import {
   apiAdress,
   apiGetFood,
-  apiGetShopList,
   apiLogin
 } from "../../request/api";
 import { Toast } from "vant";
@@ -66,8 +65,7 @@ export default {
         .then(res => {
           this.imges = res.data.slice(0, res.data.length / 2);
           this.imges1 = res.data.slice(8, res.data.length);
-          console.log(this.imges);
-          console.log(res.data);
+        
         })
         .catch(err => Toast("数据获取失败" + err));
     }

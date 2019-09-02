@@ -53,9 +53,9 @@
         </van-tabs>
       </div>
     </div>
-        <div class="prompt">
-          <span>温馨提示：未注册就登录的默认注册</span>
-        </div>
+    <div class="prompt">
+      <span>温馨提示：未注册就登录的默认注册</span>
+    </div>
   </body>
 </div>
 </template>
@@ -289,11 +289,9 @@ input::-webkit-inner-spin-button {
 }
 
 .prompt {
-  position:absolute;
-  
-     margin: 25% 15%;
+  position: absolute;
+
+  margin: 45% 15%;
 }
-
-
 </style>
 

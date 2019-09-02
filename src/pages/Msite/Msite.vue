@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <Head title="深圳龙岗龙城街道">
       <van-icon
         color="#fff"
@@ -8,7 +8,6 @@
         class-prefix="icon"
         slot="screen"
         name="sousuo"
-        
       />
       <h5 slot="login">登录 | 注册</h5>
     </Head>
@@ -50,7 +49,7 @@ import {
   apiLogin
 } from "../../request/api";
 import { Toast } from "vant";
-import { type } from 'os';
+import { type } from "os";
 export default {
   data() {
     return {
@@ -59,19 +58,18 @@ export default {
     };
   },
   mounted() {
-    this.test()
+    this.test();
   },
   methods: {
     test() {
-
       apiGetFood()
         .then(res => {
-          this.imges=res.data.slice(0,(res.data.length/2))
-          this.imges1=res.data.slice(8,res.data.length)
+          this.imges = res.data.slice(0, res.data.length / 2);
+          this.imges1 = res.data.slice(8, res.data.length);
           console.log(this.imges);
-          console.log(res.data)          
+          console.log(res.data);
         })
-        .catch(err => Toast("数据获取失败"+err));
+        .catch(err => Toast("数据获取失败" + err));
     }
   },
   components: {
@@ -82,6 +80,10 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.container {
+  overflow: hidden;
+}
+
 h5:nth-child(1) {
   font-size: 18px;
   top: 30.0469px;

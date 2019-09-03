@@ -12,8 +12,16 @@
             <h2>log in</h2>
             <form action method="post" class="form">
               <div class="form__field">
-                <input class="phoneinput" type="number" placeholder="手机号码" />
-                <van-button round class="yan" size="small" plain type="primary">获取验证码</van-button>
+                <input class="phoneinput" type="number" placeholder="手机号码" v-model="phone" />
+                <van-button
+                  round
+                  @click.prevent="btn2(),disabled=true"
+                  :disabled="!btnState"
+                  class="yan"
+                  size="small"
+                  plain
+                  type="primary"
+                >{{btn1}}</van-button>
               </div>
 
               <div class="form__field">
@@ -62,19 +70,55 @@
 
 <script>
 import Head from "../HeadTop/HeadTop";
+import { setTimeout, clearInterval } from "timers";
 
 export default {
   data() {
     return {
-      active: 2
+      active: 2,
+      phone: "",
+      //按钮文字
+      time: 0,
+      flag:true
     };
   },
   components: {
     Head
   },
+  computed: {
+    btnState() {
+      //手机号格式检测
+      return /^1[0-9]{10}$/.test(this.phone) && this.flag;
+    },
+    btn1() {
+      if (this.time == 0) {
+        return "获去验证码";
+      } else {
+        return "已发送" + "(" + this.time + ")" + "s";
+      }
+    }
+  },
   methods: {
     al() {
       this.$router.back(-1);
+    },
+    btn2() {
+      const T = this
+      
+      if (this.time == 0) {
+        this.flag = false
+        //启动定时器
+        this.time = 30;
+       
+        const inter = setInterval(function() {
+
+          T.time--
+          if (T.time == 0) {
+            window.clearInterval(inter);
+            T.flag = true
+          }
+        }, 1000);
+      }
     }
   }
 };

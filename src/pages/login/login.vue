@@ -77,9 +77,8 @@ export default {
     return {
       active: 2,
       phone: "",
-      //按钮文字
-      time: 0,
-      flag:true
+      time: 0,//倒计时
+      flag: true //判断获取验证码可不可以用
     };
   },
   components: {
@@ -92,7 +91,7 @@ export default {
     },
     btn1() {
       if (this.time == 0) {
-        return "获去验证码";
+        return "获取验证码";
       } else {
         return "已发送" + "(" + this.time + ")" + "s";
       }
@@ -103,19 +102,17 @@ export default {
       this.$router.back(-1);
     },
     btn2() {
-      const T = this
-      
-      if (this.time == 0) {
-        this.flag = false
-        //启动定时器
-        this.time = 30;
-       
-        const inter = setInterval(function() {
+      const T = this;
 
-          T.time--
+      if (this.time == 0) {//如果等于0 启动定时器 然后发ajax
+        this.flag = false;
+        this.time = 30;
+        
+        const inter = setInterval(function() {
+          T.time--;
           if (T.time == 0) {
             window.clearInterval(inter);
-            T.flag = true
+            T.flag = true;
           }
         }, 1000);
       }

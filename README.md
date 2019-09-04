@@ -8,6 +8,8 @@
 * 开发模式：模块化、组件化、工程化
 
 ---
+go
+---
 ## 底部导航栏
   1. 在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
   2. 在阿里矢量库中下载项目

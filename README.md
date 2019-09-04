@@ -35,9 +35,9 @@
 1. 启动mongodb服务器
 2. 解压目录下的take-server文件夹并`npm start`
 ##
-##测试后台服务器
-1. 安装axios ` install axios`
-2. 在main.js中引入 ``` import axios from 'axios'; ```
+### 测试后台服务器
+1. 安装axios `install axios`
+2. 在main.js中引入 `import axios from 'axios';`
 3. 这里有个坑，就是引入后要挂载到原型上才能使用 `Vue.prototype.axios = axios`
   * `this.axios.get('/position/40.10038,116.36867').then(res => {
         console.log(res) //测试代码`

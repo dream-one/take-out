@@ -7,12 +7,12 @@
     <div class="grid align__item">
       <div class="register">
         <!-- 短信登录选项卡 -->
-        <van-tabs :border="false" color="#02a774" type="line" v-model="active" animated>
-          <van-tab title="短信登录">
+        <van-tabs :border="false" v-model="activeName" color="#02a774" type="line" animated>
+          <van-tab name="phone" title="短信登录">
             <h2>log in</h2>
-            <form action method="post" class="form">
+            <form @submit.prevent="login" action method="post" class="form">
               <div class="form__field">
-                <input class="phoneinput" type="number" placeholder="手机号码" v-model="phone" />
+                <input class="phoneinput" type="text" placeholder="手机号码" v-model="phone" />
                 <van-button
                   round
                   @click.prevent="btn2(),disabled=true"
@@ -25,7 +25,7 @@
               </div>
 
               <div class="form__field">
-                <input type="text" placeholder="验证码" />
+                <input type="text" placeholder="验证码" v-model="code" />
               </div>
 
               <div class="form__field">
@@ -35,21 +35,21 @@
           </van-tab>
 
           <!-- 密码登录选项卡 -->
-          <van-tab title="密码登录">
+          <van-tab name="pwd" title="密码登录">
             <h2>log in</h2>
-            <form action method="post" class="form">
+            <form @submit.prevent="login" action method="post" class="form">
               <div class="form__field">
-                <input type="number" placeholder="手机/邮箱/用户名" />
+                <input type="text" placeholder="手机/邮箱/用户名" v-model="name" />
               </div>
 
               <div class="form__field">
-                <input type="password" placeholder="密码" />
+                <input type="password" v-model="pwd" placeholder="密码" />
               </div>
 
               <div class="form__field">
                 <div class="box">
-                  <input maxlength="4" type="text" placeholder="验证码" />
-                  <img height="42px" src="./img/yanzheng.svg" alt />
+                  <input maxlength="4" v-model="captcha" type="text" placeholder="验证码" />
+                  <img @click="imgURL" height="42px" :src="imgurl" alt />
                 </div>
               </div>
 
@@ -70,15 +70,21 @@
 
 <script>
 import Head from "../HeadTop/HeadTop";
+import { Dialog, Toast } from "vant";
 import { setTimeout, clearInterval } from "timers";
-
+import { apiSendCode, apiPhoneLogin } from "../../request/api";
 export default {
   data() {
     return {
-      active: 2,
-      phone: "",
-      time: 0,//倒计时
-      flag: true //判断获取验证码可不可以用
+      activeName: "phone",
+      time: 0, //倒计时
+      flag: true, //判断获取验证码可不可以用
+      phone: "", //手机号
+      code: "", //短信验证码
+      name: "", //用户名
+      pwd: "", //密码
+      captcha: "", //图形验证码
+      imgurl: "http://localhost:4000/captcha" //验证码图片地址
     };
   },
   components: {
@@ -103,19 +109,78 @@ export default {
     },
     btn2() {
       const T = this;
-
-      if (this.time == 0) {//如果等于0 启动定时器 然后发ajax
+      if (this.time == 0) {
+        //如果等于0 启动定时器 然后发ajax
         this.flag = false;
         this.time = 30;
-        
-        const inter = setInterval(function() {
+
+        T.inter = setInterval(function() {
           T.time--;
           if (T.time == 0) {
-            window.clearInterval(inter);
+            window.clearInterval(T.inter);
             T.flag = true;
           }
         }, 1000);
+
+        //发送验证码
+        apiSendCode({ phone: this.phone })
+          .then(() => {
+            window.clearInterval(T.inter); //关闭定时器
+            T.time = 0; //时间调为0
+            T.flag = true; //按钮变得可以用
+          })
+          .catch(function() {
+            T.time = 0;
+            Toast("获取验证码失败");
+            window.clearInterval(T.inter);
+            T.flag = true;
+          });
       }
+    },
+    Dig(msg) {
+      Dialog.alert({
+        title: "提示",
+        message: msg
+      });
+    },
+    login() {
+      //前台表单验证
+      if (this.activeName == "phone") {
+        //说明在phone选项卡中
+        let { phone, code } = this;
+        if (!this.btnState) {
+          //如果手机号不足11位
+          this.Dig("请输入正确的手机号码");
+        } else if (!/^\d{6}$/.test(this.code)) {
+          //如果验证码不足六位
+          this.Dig("请输入六位验证码");
+        } else {
+          apiPhoneLogin({phone:this.phone,code:this.code})
+            .then(res => {
+              console.log(res)
+              Toast('登录成功')
+              // this.$store.commit('re_userInfo',{id:res.data._id,phone:res.data.phone})
+              this.$router.replace('/profile#/profile')
+            })
+            .catch(err => {
+              Toast("登录失败" + err);
+            });
+        }
+      } else {
+        //在pwd选项卡中
+        let { name, pwd, captcha } = this;
+        if (!name) {
+          this.Dig("请输入用户名");
+        } else if (!pwd) {
+          this.Dig("请输入密码");
+        } else if (!captcha) {
+          this.Dig("请输入图形验证码");
+        }
+      }
+    },
+    imgURL() {
+      //图片验证码
+      return (this.imgurl = "http://localhost:4000/captcha?" + Date.now());
     }
   }
 };

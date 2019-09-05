@@ -81,6 +81,7 @@ export default {
       title: "我的"
     };
   },
+ 
   components: {
     HeaderTop
   },

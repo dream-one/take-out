@@ -29,6 +29,7 @@ export default new Vuex.Store({
     re_userInfo(state,user){
       state.userInfo.id = user.id
       state.userInfo.phone = user.phone
+      state.userInfo.name = user.name
     }
   },
   getters:{

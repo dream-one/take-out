@@ -53,31 +53,28 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { mapState } from "vuex";
-import { apiGetShopList } from "../../request/api";
-import Star from "./stars/star";
+import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
+import { apiGetShopList } from '../../request/api'
+import Star from './stars/star'
 export default {
   data() {
     return {
       shoplists: [],
-      BaseUrl: "http://localhost:4000"
-    };
+      BaseUrl: 'http://localhost:4000'
+    }
   },
   mounted: function() {
-    this.$store.dispatch("receive_shops");
-    this.getShopList();
+    this.$store.dispatch('receive_shops')
+    this.getShopList()
   },
   methods: {
     getShopList() {
-      apiGetShopList({ latitude: "40.10038", longitude: "116.36867" }).then(
+      apiGetShopList({ latitude: '40.10038', longitude: '116.36867' }).then(
         res => {
-          this.shoplists = res.data;
-        
-
-          console.log(this.shoplists);
+          this.shoplists = res.data
         }
-      );
+      )
     }
   },
   computed: {
@@ -87,7 +84,7 @@ export default {
   components: {
     Star
   }
-};
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">

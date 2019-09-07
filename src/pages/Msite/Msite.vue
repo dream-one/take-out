@@ -9,7 +9,8 @@
         slot="screen"
         name="sousuo"
       />
-      <h5 slot="login">登录 | 注册</h5>
+      <h5 slot="login" v-if="!userInfo.id">登录|注册</h5>
+      <van-icon slot="login" size="30" color="#fff" name="share" v-else></van-icon>
     </Head>
     <!-- 轮播图 -->
     <van-swipe indicator-color="#02a774">
@@ -40,41 +41,40 @@
 </template>
 
 <script>
-import Head from "../HeadTop/HeadTop.vue";
-import Shoplist from "../../components/ShopList/shoplist.vue";
-import {
-  apiAdress,
-  apiGetFood,
-  apiLogin
-} from "../../request/api";
-import { Toast } from "vant";
-import { type } from "os";
+import Head from '../HeadTop/HeadTop.vue'
+import { mapState } from 'vuex'
+import Shoplist from '../../components/ShopList/shoplist.vue'
+import { apiAdress, apiGetFood, apiLogin } from '../../request/api'
+import { Toast } from 'vant'
+import { type } from 'os'
 export default {
   data() {
     return {
       imges: [],
       imges1: []
-    };
+    }
   },
   mounted() {
-    this.test();
+    this.test()
   },
   methods: {
     test() {
       apiGetFood()
         .then(res => {
-          this.imges = res.data.slice(0, res.data.length / 2);
-          this.imges1 = res.data.slice(8, res.data.length);
-        
+          this.imges = res.data.slice(0, res.data.length / 2)
+          this.imges1 = res.data.slice(8, res.data.length)
         })
-        .catch(err => Toast("数据获取失败" + err));
+        .catch(err => Toast('数据获取失败' + err))
     }
   },
   components: {
     Head,
     Shoplist
+  },
+  computed: {
+    ...mapState(['userInfo'])
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

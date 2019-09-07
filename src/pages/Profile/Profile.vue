@@ -4,19 +4,19 @@
     <section class="profile-number">
       <van-cell url="#/login" link-type="navigateTo" class="profile-link">
         <div class="profile_image">
-          <img src="./img/touxiang.jpg">
+          <img src="./img/touxiang.jpg" />
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top">{{showuser}}</p>
           <p>
             <span class="user-icon">
-             <van-icon name="phone-o"></van-icon>
+              <van-icon name="phone-o"></van-icon>
             </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">{{userInfo.phone ? userInfo.phone : '未绑定手机号'}}</span>
           </p>
         </div>
         <span class="arrow">
-          <van-icon name="arrow" size="25" color="#fff"/>
+          <van-icon name="arrow" size="25" color="#fff" />
         </span>
       </van-cell>
     </section>
@@ -66,45 +66,66 @@
     </section>
 
     <section>
-      <!-- <van-button type="primary" size="large">大号按钮</van-button> -->
+      <van-button
+        style="margin-top:10px;color:red"
+        @click="logout"
+        plain
+        size="large"
+        v-if="userInfo.id"
+        type="default"
+      >退出登录</van-button>
     </section>
   </section>
 </template>
 
 <script>
-import HeaderTop from "../HeadTop/HeadTop";
-// import {mapState} from 'vuex'
-// import axios from 'axios'
+import HeaderTop from '../HeadTop/HeadTop'
+import { mapState } from 'vuex'
+import axios from 'axios'
+import { Toast } from 'vant'
+
 export default {
   data() {
     return {
-      title: "我的"
-    };
+      title: '我的'
+    }
   },
- 
+
   components: {
     HeaderTop
   },
   computed: {
-    // ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    showuser() {
+      if (this.userInfo.phone) {
+        return '用户' + Date.now()
+      } else if (this.userInfo.name) {
+        return this.userInfo.name
+      } else {
+        return '登录/注册'
+      }
+    }
   },
   methods: {
-    // logout(){
-    //   this.$axios.get('/api/logout').then((res)=>{
-    //     console.log('登出成功')
-    //     this.$router.replace('/Login')
-    //   })
-    // }
+    logout() {
+      this.axios.get('/logout').then(res => {
+        this.$router.replace('/profile')
+        console.log('登出成功')
+        this.$store.commit('dele_userfo')
+        Toast('退出成功')
+      })
+    }
   }
-};
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
 @import '../../common/stylus/mixins.styl';
 
-.fuwu{
-  margin-top 10px
+.fuwu {
+  margin-top: 10px;
 }
+
 .header {
   background-color: #02a774;
   position: fixed;
@@ -160,7 +181,7 @@ export default {
 
 .profile { // 我的
   width: 100%;
-  height 100vh
+  height: 100vh;
   background-color: #e6d8d8;
 
   .profile-number {
@@ -178,13 +199,15 @@ export default {
         height: 60px;
         border-radius: 50%;
         overflow: hidden;
-        position relative
-        top 10px
+        position: relative;
+        top: 10px;
         vertical-align: top;
-          img{
-            weight 100%
-            height 100%
-          }
+
+        img {
+          weight: 100%;
+          height: 100%;
+        }
+
         .icon-geren {
           background: #e4e4e4;
           font-size: 62px;

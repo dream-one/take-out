@@ -80,7 +80,7 @@ export default {
       activeName: 'phone',
       time: 0, //倒计时
       flag: true, //判断获取验证码可不可以用
-      phone: '',//手机号
+      phone: '', //手机号
       code: '', //短信验证码
       name: '', //用户名
       pwd: '', //密码
@@ -115,7 +115,7 @@ export default {
         this.flag = false
         this.time = 30
 
-        T.inter = setInterval(function () {
+        T.inter = setInterval(function() {
           T.time--
           if (T.time == 0) {
             window.clearInterval(T.inter)
@@ -130,7 +130,7 @@ export default {
             T.time = 0 //时间调为0
             T.flag = true //按钮变得可以用
           })
-          .catch(function () {
+          .catch(function() {
             T.time = 0
             Toast('获取验证码失败')
             window.clearInterval(T.inter)
@@ -159,8 +159,15 @@ export default {
           apiPhoneLogin({ phone: this.phone, code: this.code })
             .then(res => {
               console.log(res)
-              Toast('登录成功')
-              this.$store.commit('re_userInfo', { id: res.data._id, phone: res.data.phone })
+              if (res.code === 1) {
+                Toast(res.msg)
+                return
+              }
+              this.$store.commit('re_userInfo', {
+                id: res.data._id,
+                phone: res.data.phone
+              })
+              this.imgURL()
               this.$router.replace('/profile#/profile')
             })
             .catch(err => {
@@ -189,7 +196,10 @@ export default {
                 this.imgURL()
                 return
               }
-              this.$store.commit('re_userInfo', { id: res.data._id, name: res.data.name })
+              this.$store.commit('re_userInfo', {
+                id: res.data._id,
+                name: res.data.name
+              })
               this.$router.replace('/profile#/profile')
             })
             .catch(err => {

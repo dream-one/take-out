@@ -83,7 +83,6 @@ import HeaderTop from '../HeadTop/HeadTop'
 import { mapState } from 'vuex'
 import axios from 'axios'
 import { Toast } from 'vant'
-
 export default {
   data() {
     return {

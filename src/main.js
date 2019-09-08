@@ -6,6 +6,7 @@ import Vant from "vant";
 import "vant/lib/index.css";
 import VueAMap from "vue-amap";
 import axios from "axios";
+import "./mock/mockServer";
 Vue.prototype.axios = axios;
 
 Vue.use(VueAMap);

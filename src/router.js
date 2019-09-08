@@ -16,29 +16,29 @@ export default new Router({
     {
       path: "/msite",
       component: msite,
-      meta:{
-        Footshow:true
+      meta: {
+        Footshow: true
       }
     },
     {
       path: "/order",
       component: Order,
-      meta:{
-        Footshow:true
+      meta: {
+        Footshow: true
       }
     },
     {
       path: "/profile",
       component: Profile,
-      meta:{
-        Footshow:true
+      meta: {
+        Footshow: true
       }
     },
     {
       path: "/search",
       component: Search,
-      meta:{
-        Footshow:true
+      meta: {
+        Footshow: true
       }
     },
     {
@@ -51,8 +51,8 @@ export default new Router({
       redirect: "/msite"
     },
     {
-      path:"/login",
-      component:login
+      path: "/login",
+      component: login
     }
   ],
   linkActiveClass: "mui-active"

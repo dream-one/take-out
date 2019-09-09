@@ -1,13 +1,26 @@
 <template>
   <div>
-    <shophead></shophead>
+    <ShopHead></ShopHead>
+    <van-tabs v-model="active">
+      <van-tab title="点餐"><ShopFood></ShopFood></van-tab>
+      <van-tab title="评价"><ShopContent></ShopContent></van-tab>
+      <van-tab title="商家"><ShopActivity></ShopActivity></van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
 import { shopsinfo } from '../../request/api'
-import shophead from './shopHead.vue'
+import ShopHead from './shopHead.vue'
+import ShopFood from './shopFoods'
+import ShopContent from './shopContent'
+import ShopActivity from './shopActivity'
 export default {
+  data(){
+    return {
+      active: 0
+    }
+  },
   // mounted() {
   //   shopsinfo()
   //     .then(res => {
@@ -18,7 +31,10 @@ export default {
   //     })
   // }
   components: {
-    shophead
+    ShopHead,
+    ShopFood,
+    ShopContent,
+    ShopActivity
   }
 }
 </script>

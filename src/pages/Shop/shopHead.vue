@@ -9,24 +9,24 @@
       <div class="shop-content">
         <img
           class="content-image"
-          src="https://fuss10.elemecdn.com/8/40/02872ce8aefe75c16d3190e75ad61jpeg.jpeg"
+          :src="infodata.avatar"
         />
         <div class="header-content">
           <h2 class="content-title">
             <span class="content-tag">
               <span class="mini-tag">品牌</span>
             </span>
-            <span class="content-name">大鸭梨</span>
+            <span class="content-name" @click="upshowtan">{{infodata.name}}</span>
             <i class="content-icon"></i>
           </h2>
           <div class="shop-message">
-            <span class="shop-message-detail">8</span>
-            <span class="shop-message-detail">月售 55单</span>
+            <span class="shop-message-detail">{{infodata.foodScore}}</span>
+            <span class="shop-message-detail">月售 {{infodata.sellCount}}单</span>
             <span class="shop-message-detail">
               好吃专送
-              <span>约5分钟</span>
+              <span>约{{infodata.deliveryTime}}分钟</span>
             </span>
-            <span class="shop-message-detail">距离144m</span>
+            <span class="shop-message-detail">距离{{infodata.distance}}</span>
           </div>
         </div>
       </div>
@@ -47,14 +47,16 @@
           <div class="liangzi">
             <span class="color-green">首单</span>
           </div>
-          <span id="only" class="activity-content ellipsis">新用户下单立减 17 元（不与其他活动同）</span>
+          <div id="only">
+            <span class="activity-content ellipsis">新用户下单立减 17 元（不与其他活动同）</span>
+          </div>
         </div>
         <div class="right">
           <span>4个优惠</span>
           <van-icon style="top: 1px;right: -13px;" name="arrow-down"></van-icon>
         </div>
       </div>
-      <van-popup closeable close-icon="close" position="bottom" click-overlay="showPopup" v-model="show" :style="{ backgroundColor:'#ccc' }">
+      <van-popup closeable position="bottom" click-overlay="showPopup" v-model="show">
         <div class="activity-sheet">
           <div class="activity-sheet-content">
             <h2 class="activity-sheet-title">优惠活动</h2>
@@ -103,7 +105,8 @@
           <div class="activity-sheet-cover"></div>
         </div>
       </van-popup>
-      <div class="shop-brief-modal" style="display: none">
+
+      <div class="shop-brief-modal" v-show="showtan">
         <div class="brief-modal-content">
           <h2 class="content-title">
             <span class="content-tag">
@@ -121,7 +124,7 @@
               <p>月售</p>
             </li>
             <li>
-              <h3>硅谷专送</h3>
+              <h3>好吃专送</h3>
               <p>约 28 分钟</p>
             </li>
             <li>
@@ -136,81 +139,81 @@
           <h3 class="brief-modal-title">
             <span>公告</span>
           </h3>
-          <div class="brief-modal-notice">是以粥为特色的中式营养快餐，自 2004 年 10 月 18 日创立“嘉和一品”品牌至今</div>
+          <div class="brief-modal-notice">{{infodata.bulletin}}</div>
           <div class="mask-footer">
-            <span class="iconfont icon-close"></span>
+            <span class="iconfont icon-close">
+              <van-icon name="cross" @click="upshowtan"></van-icon>
+            </span>
           </div>
         </div>
-        <div class="brief-modal-cover"></div>
+        <div class="brief-modal-cover" @click="upshowtan"></div>
       </div>
-
-      <!-- <div class="activity-sheet">
-        <div class="activity-sheet-content">
-          <h2 class="activity-sheet-title">优惠活动</h2>
-          <ul class="list">
-            <li class="activity-item activity-green">
-              <span class="content-tag">
-                <span class="mini-tag">首单</span>
-              </span>
-              <span class="activity-content">新用户下单立减 17 元(不与其它活动同享)</span>
-            </li>
-            <li class="activity-item activity-red">
-              <span class="content-tag">
-                <span class="mini-tag">满减</span>
-              </span>
-              <span class="activity-content">满 35 减 19，满 65 减 35</span>
-            </li>
-            <li class="activity-item activity-orange">
-              <span class="content-tag">
-                <span class="mini-tag">特价</span>
-              </span>
-              <span class="activity-content">【立减 19.5 元】欢乐小食餐</span>
-            </li>
-            <li class="activity-item activity-green">
-              <span class="content-tag">
-                <span class="mini-tag">首单</span>
-              </span>
-              <span class="activity-content">新用户下单立减 17 元(不与其它活动同享)</span>
-            </li>
-            <li class="activity-item activity-red">
-              <span class="content-tag">
-                <span class="mini-tag">满减</span>
-              </span>
-              <span class="activity-content">满 35 减 19，满 65 减 35</span>
-            </li>
-            <li class="activity-item activity-orange">
-              <span class="content-tag">
-                <span class="mini-tag">特价</span>
-              </span>
-              <span class="activity-content">【立减 19.5 元】欢乐小食餐</span>
-            </li>
-          </ul>
-          <div class="activity-sheet-close">
-            <span class="iconfont icon-close"></span>
-          </div>
-        </div>
-        <div class="activity-sheet-cover"></div>
-      </div> -->
     </div>
   </div>
 </template>
 <script>
+import { shopsinfo } from "../../request/api";
 export default {
   data() {
     return {
-      show: false
-    }
+      show: false, //底部弹出
+      showtan: false, //中间弹出
+      infodata:{}
+    };
   },
   methods: {
     showPopup() {
-      this.show = !this.show
+      this.show = !this.show;
     },
-    clickOverlay() {}
+    upshowtan() {
+      this.showtan = !this.showtan;
+    }
+  },
+  mounted() {
+    shopsinfo()
+      .then(res => {
+        this.infodata = res.data
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
-}
+};
 </script>
 <style scoped lang="stylus" >
 @import '../../common/stylus/mixins.styl';
+
+.brief-modal-notice {
+  font-size: 11px;
+  line-height: 1.54;
+  color: #333;
+  overflow-y: auto;
+}
+
+// 字体图标
+.iconfont {
+  position: absolute;
+  color: #fff;
+  top: 50vh;
+  left: 40vw;
+  font-size: 35px;
+}
+
+.activity-item {
+  font-size: 13px;
+}
+
+.activity-green .mini-tag {
+  background-color: green;
+}
+
+.activity-orange .mini-tag {
+  background-color: orange;
+}
+
+.activity-red .mini-tag {
+  background-color: red;
+}
 
 .liangzi {
   float: left;
@@ -222,7 +225,7 @@ export default {
 }
 
 .left {
-  margin: 0 auto;
+  margin-left: 0 10px;
 }
 
 .color-green {
@@ -234,18 +237,27 @@ export default {
 }
 
 #only {
-  margin: 0 auto;
-  width: 40vw;
+  width: 50vw;
   display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  position: absolute;
+  left: 18vw;
+}
+
+.mini-tag {
+  background-color: rgba(119, 103, 137, 0.43);
+  font-size: 12px;
+  margin: 10px 10px;
+  color: #fff;
 }
 
 .shop-head-tanchu {
   width: 80vw;
   margin: 0 auto;
-  font-size: 13px;
+  font-size: 12px;
+  color: #ccc;
   border-style: double;
   border-color: #ccc;
   border-width: 1px;
@@ -586,7 +598,7 @@ export default {
     }
 
     .brief-modal-notice {
-      font-size: 13px;
+      font-size: 11px;
       line-height: 1.54;
       color: #333;
       overflow-y: auto;

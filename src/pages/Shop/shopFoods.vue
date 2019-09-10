@@ -1,6 +1,6 @@
 <template>
   <div>
-      点餐
+      点餐ss
   </div>
 </template>
 

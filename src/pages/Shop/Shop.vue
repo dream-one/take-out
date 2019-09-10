@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shopContain">
     <ShopHead></ShopHead>
     <van-tabs v-model="active">
       <van-tab title="点餐"><ShopFood></ShopFood></van-tab>
@@ -39,5 +39,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+  .shopContain{
+    height 100vh
+    width 100vw
+    overflow hidden
+  }
 </style>

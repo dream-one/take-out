@@ -1,6 +1,6 @@
 module.exports = {
     //axios域代理，解决axios跨域问题
-    baseUrl: '/',
+    publicPath: '/',
     devServer: {
         proxy: {
             '': {

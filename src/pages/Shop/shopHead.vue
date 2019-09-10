@@ -30,18 +30,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="shop-header-discounts">
-        <div class="discounts-left">
-          <div class="activity activity-green">
-            <span class="content-tag">
-              <span class="mini-tag">首单</span>
-            </span>
-            <span class="activity-content ellipsis">新用户下单立减 17 元</span>
-          </div>
-        </div>
-        <div class="discounts-right">4 个优惠</div>
-      </div>-->
-
       <div class="shop-head-tanchu" @click="showPopup">
         <div class="left">
           <div class="liangzi">

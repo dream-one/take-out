@@ -80,3 +80,4 @@
    2. 清除定时器必须使用 window.clearInterval()！！
    * 如果想在倒计时中也把按钮设置为禁用状态，需要额外定义一个flag 
    
+## Shop.vue

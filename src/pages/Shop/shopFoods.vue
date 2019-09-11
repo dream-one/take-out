@@ -1,9 +1,15 @@
 <template>
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
-      <div class="content" >
+      <div class="content">
         <ul>
-          <li class="menu-item" v-for="(item,index) in goods" :key="index">
+          <li
+            class="menu-item"
+            @click="is = index"
+            :class="{current:is==index}"
+            v-for="(item,index) in goods"
+            :key="index"
+          >
             <span class="text bottom-border-1px">
               <img :class="{icon:item.icon}" :src="item.icon" />
               {{item.name}}
@@ -14,7 +20,7 @@
     </div>
     <div class="foods-wrapper">
       <div class="content" ref="foodTop">
-        <ul>
+        <ul ref="foodTop">
           <li class="food-list-hook" v-for="(item,index) in goods" :key="index">
             <h1 class="title">{{item.name}}</h1>
             <ul>
@@ -48,13 +54,15 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll';
+import BScroll from "better-scroll";
 import { Toast } from "vant";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      activeKey: 0
+      activeKey: 0,
+      is: 0,
+      scrollY:0
       // foods: [],
       // foodslist: []
     };
@@ -63,15 +71,20 @@ export default {
     ...mapState(["goods"])
   },
   mounted() {
-    let T = this
+    let T = this;
     this.getgoods().then(() => {
+      //发送ajax完成后的回调
       T.$nextTick(() => {
-        T.scroll = new BScroll('.menu-wrapper');
-        new BScroll('.foods-wrapper')
+        //在$newxtTick函数内 保证数据已经渲染完成
+        const mbs = new BScroll(".menu-wrapper", { click: true }); //滑动效果
+        const fbs = new BScroll(".foods-wrapper", { click: true, probeType: 2 });
+        fbs.on("scroll", ({ x, y }) => {
+          this.scrollY = y;
+
+        });
       });
     });
   },
-  created() {},
   methods: {
     ...mapActions({
       getgoods: "shopsGoods"
@@ -90,11 +103,14 @@ export default {
   height: 100%;
   width: 100%;
   background: #fff;
-  overflow hidden
+  overflow: hidden;
+
   .menu-wrapper {
     flex: 0 0 80px;
     width: 80px;
     background: #f3f5f7;
+    height: 66vh;
+    overflow: hidden;
 
     .menu-item {
       display: table;
@@ -102,10 +118,10 @@ export default {
       width: 56px;
       padding: 0 12px;
       line-height: 14px;
+      z-index: 10;
 
       &.current {
         position: relative;
-        z-index: 10;
         margin-top: -1px;
         background: #fff;
         color: $green;
@@ -138,6 +154,7 @@ export default {
 
   .foods-wrapper {
     flex: 1;
+    height: 66vh;
 
     .title {
       padding-left: 14px;

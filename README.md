@@ -74,10 +74,16 @@
 
 ## Login.vue
    * 判断手机格式来决定是否禁用按钮
-   按照老师的来，van-button有个属性叫disabled用来切换按钮是否禁用
+   van-button组件有个属性叫disabled用来切换按钮是否禁用，使用计算属性，如果输入的值不是1开头或者不满11位，获取验证码按钮处于禁用状态
    * 倒计时（这里有坑）
    1. 由于在定时器回调函数内部中,this是window！！所以一开始要把this保存起来！！
    2. 清除定时器必须使用 window.clearInterval()！！
    * 如果想在倒计时中也把按钮设置为禁用状态，需要额外定义一个flag 
    
 ## Shop.vue
+	* better-scroll无法滑动:仔细阅读文档后发现，外层DIV需指定高度。
+	* 实现点击左侧某个标签，就给那个标签增加current类。
+	1. ``` /*思路:每个li标签都有自己的Index下标，那么我们创建一个is属性，值是数字。每点击一个标签就把index值传递给is。只要li的index等于is，就添加current类。 */
+	<li :class="{current:is==index}" @click="is=index"></li>
+	```
+	2. 有个坑就是给li加点击事件失效，查阅文档发现是better-scroll搞得鬼。new Bscroll的时候添加一个配置项` new BScroll('.foods-wrapper',{click:true}) `

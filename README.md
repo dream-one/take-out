@@ -81,9 +81,39 @@
    * 如果想在倒计时中也把按钮设置为禁用状态，需要额外定义一个flag 
    
 ## Shop.vue
-	* better-scroll无法滑动:仔细阅读文档后发现，外层DIV需指定高度。
-	* 实现点击左侧某个标签，就给那个标签增加current类。
-	1. ``` /*思路:每个li标签都有自己的Index下标，那么我们创建一个is属性，值是数字。每点击一个标签就把index值传递给is。只要li的index等于is，就添加current类。 */
+
+
+###shopgoods.vue的编写
+* better-scroll无法滑动:仔细阅读文档后发现，外层DIV需指定高度。
+* 实现点击左侧某个标签，就给那个标签增加current类。
+* 	1. ``` /*思路:每个li标签都有自己的Index下标，那么我们创建一个is属性，值是数字。每点击一个标签就把index值传递给is。只要li的index等于is，就添加current类。 */
 	<li :class="{current:is==index}" @click="is=index"></li>
 	```
-	2. 有个坑就是给li加点击事件失效，查阅文档发现是better-scroll搞得鬼。new Bscroll的时候添加一个配置项` new BScroll('.foods-wrapper',{click:true}) `
+	2. 有个坑就是给li加点击事件失效，查阅文档发现是better-scroll搞得鬼。new Bscroll的时候添加一个配置项` new BScroll('.foods-wrapper',{click:``true}) `
+
+* 关于左右两侧列表的关联思路：需要两个数据：一个是滑动到哪了，一个是滑动到哪就要更改is的数值了
+  1.  滑动到哪,better-scroll有钩子函数，我们可以监听，并保存到data中的scrollY：
+
+		 	const fbs = new BScroll('.foods-wrapper', { click: true, probeType: 2 })
+		 	fbs.on('scroll', ({ y }) => {
+		 		this.scrollY = Math.abs(y)
+		 	}),
+		
+  2.  滑动到哪个位置就要更改is，是初始化数据时即确定。将每个li标签的top值存入数组
+
+		 	 let texttops = []
+    		 let top = 0
+    		 texttops.push(top)
+    		 //1.获取节点
+    		 const lis = this.$refs.foodTop.getElementsByClassName('food-list-hook')
+    		 //2.遍历节点
+    		 Array.prototype.slice.apply(lis).forEach(li => {
+    		   top += li.clientHeight
+    		   texttops.push(top)
+    		 })
+    		 //3.更新数据
+    		 this.tops = texttops
+      这样我们就获得了一个数组`tops=[0, 780, 1103, 1601, 1726, 1950, 2194, 2517, 3038, 3758]`但是是伪数组
+	3. 定义watch，监听scrollY属性。使用findIndex方法，判断scrolly数值在tops数组哪个区间，将下标传给is
+	4. 使用scrollTo方法，再点击时滚动 ` @click="is = index,fbs.scrollTo(0,-tops[index],300)" `
+  

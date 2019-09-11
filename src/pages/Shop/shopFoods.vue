@@ -5,7 +5,7 @@
         <ul>
           <li
             class="menu-item"
-            @click="is = index"
+            @click="is = index,fbs.scrollTo(0,-tops[index],300)"
             :class="{current:is==index}"
             v-for="(item,index) in goods"
             :key="index"
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="foods-wrapper">
-      <div class="content" ref="foodTop">
+      <div class="content">
         <ul ref="foodTop">
           <li class="food-list-hook" v-for="(item,index) in goods" :key="index">
             <h1 class="title">{{item.name}}</h1>
@@ -54,43 +54,74 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
-import { Toast } from "vant";
-import { mapState, mapActions } from "vuex";
+import BScroll from 'better-scroll'
+import { Toast } from 'vant'
+import { mapState, mapActions } from 'vuex'
+import { constants } from 'crypto'
+import { parse } from 'path'
 export default {
   data() {
     return {
-      activeKey: 0,
-      is: 0,
-      scrollY:0
-      // foods: [],
-      // foodslist: []
-    };
+      activeKey: 0, //选项卡
+      is: 0, //当前选中
+      scrollY: 0, //保存滚动时的Y坐标
+      tops: [] //保存每一项li的top
+    }
+  },
+  watch: {
+    scrollY() {
+      this.is = this.tops.findIndex((item, index, arr) => {
+        return this.scrollY >= arr[index] && arr[index + 1] > this.scrollY
+      })
+    }
   },
   computed: {
-    ...mapState(["goods"])
+    ...mapState(['goods'])
   },
   mounted() {
-    let T = this;
+    let T = this
     this.getgoods().then(() => {
       //发送ajax完成后的回调
       T.$nextTick(() => {
         //在$newxtTick函数内 保证数据已经渲染完成
-        const mbs = new BScroll(".menu-wrapper", { click: true }); //滑动效果
-        const fbs = new BScroll(".foods-wrapper", { click: true, probeType: 2 });
-        fbs.on("scroll", ({ x, y }) => {
-          this.scrollY = y;
-
-        });
-      });
-    });
+        this.initscroll()
+        this.inittops()
+      })
+    })
   },
   methods: {
     ...mapActions({
-      getgoods: "shopsGoods"
-    })
+      getgoods: 'shopsGoods'
+    }),
+    initscroll() {
+      //初始化滑动
+      const mbs = new BScroll('.menu-wrapper', { click: true }) //滑动效果
+      const fbs = new BScroll('.foods-wrapper', { click: true, probeType: 2 })
+
+      fbs.on('scroll', ({ y }) => {
+        this.scrollY = Math.abs(y)
+      }),
+      this.fbs = fbs
+    },
+    inittops() {
+      //收集所有元素的clientHtight
+      //初始化tops
+      let texttops = []
+      let top = 0
+      texttops.push(top)
+      //1.获取节点
+      const lis = this.$refs.foodTop.getElementsByClassName('food-list-hook')
+      //2.遍历节点
+      Array.prototype.slice.apply(lis).forEach(li => {
+        top += li.clientHeight
+        texttops.push(top)
+      })
+      //3.更新数据
+      this.tops = texttops
+      console.log(this.tops)
+    }
   }
-};
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">

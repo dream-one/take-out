@@ -88,8 +88,8 @@
 * 实现点击左侧某个标签，就给那个标签增加current类。
 * 	1. ``` /*思路:每个li标签都有自己的Index下标，那么我们创建一个is属性，值是数字。每点击一个标签就把index值传递给is。只要li的index等于is，就添加current类。 */
 	<li :class="{current:is==index}" @click="is=index"></li>
-	```
-	2. 有个坑就是给li加点击事件失效，查阅文档发现是better-scroll搞得鬼。new Bscroll的时候添加一个配置项` new BScroll('.foods-wrapper',{click:``true}) `
+	
+	2. 有个坑就是给li加点击事件失效，查阅文档发现是better-scroll搞得鬼。new Bscroll的时候添加一个配置项` new BScroll('.foods-wrapper',{click:``true}) 
 
 * 关于左右两侧列表的关联思路：需要两个数据：一个是滑动到哪了，一个是滑动到哪就要更改is的数值了
   1.  滑动到哪,better-scroll有钩子函数，我们可以监听，并保存到data中的scrollY：

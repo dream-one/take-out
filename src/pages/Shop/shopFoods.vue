@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <div class="content">
-        <ul>
+        <ul ref="menu">
           <li
             class="menu-item"
             @click="is = index,fbs.scrollTo(0,-tops[index],300)"
@@ -26,8 +26,8 @@
             <ul>
               <li
                 class="food-item bottom-border-1px"
-                v-for="(food,index) in item.foods"
-                :key="index"
+                v-for="(food,index1) in item.foods"
+                :key="index1"
               >
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon" />
@@ -42,7 +42,7 @@
                   <div class="price">
                     <span class="now">￥{{food.price}}</span>
                   </div>
-                  <div class="cartcontrol-wrapper">55</div>
+                  <div class="cartcontrol-wrapper"><CartControl :index='index1' :food="food"></CartControl></div>
                 </div>
               </li>
             </ul>
@@ -54,74 +54,113 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-import { Toast } from 'vant'
-import { mapState, mapActions } from 'vuex'
-import { constants } from 'crypto'
-import { parse } from 'path'
+import BScroll from "better-scroll";
+import CartControl from './carcontor'
+import { Toast } from "vant";
+import { mapState, mapActions } from "vuex";
+import { constants } from "crypto";
+import { parse } from "path";
 export default {
   data() {
     return {
       activeKey: 0, //选项卡
       is: 0, //当前选中
       scrollY: 0, //保存滚动时的Y坐标
-      tops: [] //保存每一项li的top
-    }
+      tops: [], //保存每一项li的top
+      leftops: [],
+      lefY: 0
+    };
   },
   watch: {
     scrollY() {
       this.is = this.tops.findIndex((item, index, arr) => {
-        return this.scrollY >= arr[index] && arr[index + 1] > this.scrollY
-      })
+        return this.scrollY >= arr[index] && arr[index + 1] > this.scrollY;
+      });
+    },
+    is() {
+      let currentindex = document.getElementsByClassName('menu-item current')[0].offsetTop
+    
+      if(this.is>7){ this.mbs.scrollTo(0,-(this.is-7)*54,500)}else if(this.is<=0){
+        this.mbs.scrollTo(0,-this.is*54,500)
+      }
+   
     }
   },
   computed: {
-    ...mapState(['goods'])
+    ...mapState(["goods",'foodscount'])
+
   },
   mounted() {
-    let T = this
+    let T = this;
     this.getgoods().then(() => {
       //发送ajax完成后的回调
       T.$nextTick(() => {
         //在$newxtTick函数内 保证数据已经渲染完成
-        this.initscroll()
-        this.inittops()
-      })
-    })
+        this.initscroll();
+        this.inittops();
+        this.initleft();
+      });
+    });
   },
   methods: {
     ...mapActions({
-      getgoods: 'shopsGoods'
+      getgoods: "shopsGoods"
     }),
     initscroll() {
       //初始化滑动
-      const mbs = new BScroll('.menu-wrapper', { click: true }) //滑动效果
-      const fbs = new BScroll('.foods-wrapper', { click: true, probeType: 2 })
-
-      fbs.on('scroll', ({ y }) => {
-        this.scrollY = Math.abs(y)
+      const mbs = new BScroll(".menu-wrapper", { click: true, probeType: 2 }); //滑动效果
+      const fbs = new BScroll(".foods-wrapper", { click: true, probeType: 2 });
+      //监听滑动
+      fbs.on("scroll", ({ y }) => {
+        this.scrollY = Math.abs(y);
       }),
-      this.fbs = fbs
+        (this.fbs = fbs);
+      //监听滑动结束事件
+      fbs.on("scrollEnd", ({ y }) => {
+        this.scrollY = Math.abs(y);
+      });
+
+      mbs.on("scroll", ({ y }) => {
+        this.lefY = Math.abs(y);
+      });
+      this.mbs = mbs;
     },
     inittops() {
       //收集所有元素的clientHtight
       //初始化tops
-      let texttops = []
-      let top = 0
-      texttops.push(top)
+      let texttops = [];
+      let top = 0;
+      texttops.push(top);
       //1.获取节点
-      const lis = this.$refs.foodTop.getElementsByClassName('food-list-hook')
+      const lis = this.$refs.foodTop.getElementsByClassName("food-list-hook");
       //2.遍历节点
       Array.prototype.slice.apply(lis).forEach(li => {
-        top += li.clientHeight
-        texttops.push(top)
-      })
+        top += li.clientHeight;
+        texttops.push(top);
+      });
       //3.更新数据
-      this.tops = texttops
-      console.log(this.tops)
+      this.tops = texttops;
+    },
+    initleft() {
+      let texttops = [];
+      let top = 0;
+      texttops.push(top);
+      //1.获取节点
+      const lis = this.$refs.menu.getElementsByClassName("menu-item");
+      //2.遍历节点
+      Array.prototype.slice.apply(lis).forEach(li => {
+        top += li.clientHeight;
+        texttops.push(top);
+      });
+      //3.更新数据
+      this.lefttops = texttops;
+      console.log(this.lefttops);
     }
+  },
+  components:{
+    CartControl
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">

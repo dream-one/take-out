@@ -17,7 +17,8 @@ export default new Vuex.Store({
     categorys: [], //分类数组
     shops: [], //商家列表
     userInfo: {},
-    goods: [] //产品列表
+    goods: [], //产品列表
+    foodscount:[] 
   },
 
   // 别的组件通过this.$store.commit(方法名调用)
@@ -41,6 +42,10 @@ export default new Vuex.Store({
     },
     dele_userfo(state) {
       state.userInfo = {};
+    },
+    addfoods(state,item){
+
+      state.foodscount.push(item)
     }
   },
   getters: {
@@ -49,6 +54,10 @@ export default new Vuex.Store({
     },
     userInfophone: state => {
       return state.userInfo.phone;
+    },
+    watchfoods(state,index){
+      // if(!state.foodscount[index]){return false}
+      // return this.foodscount[index] >= 1;
     }
   },
   actions: {

@@ -6,6 +6,7 @@
       <van-tab title="评价"><ShopContent></ShopContent></van-tab>
       <van-tab title="商家"><ShopActivity></ShopActivity></van-tab>
     </van-tabs>
+    <div class="bottom"><ShopCar></ShopCar></div>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import ShopHead from './shopHead.vue'
 import ShopFood from './shopFoods'
 import ShopContent from './shopContent'
 import ShopActivity from './shopActivity'
+import ShopCar from './shopcar'
 export default {
   data(){
     return {
@@ -34,7 +36,8 @@ export default {
     ShopHead,
     ShopFood,
     ShopContent,
-    ShopActivity
+    ShopActivity,
+    ShopCar
   }
 }
 </script>
@@ -42,7 +45,16 @@ export default {
 <style lang="stylus" scoped>
   .shopContain{
     height 100vh
-    width 100vw
+    width 100%
     overflow hidden
+  }
+  .bottom{
+    bottom 0
+    overflow hidden
+    background-color #cccccc
+    width 100%
+    height 9vh
+    position fixed
+    z-index 50
   }
 </style>

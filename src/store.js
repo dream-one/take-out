@@ -1,11 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import {
-  stat
-} from "fs";
-import {
-  shopsgoods
-} from "./request/api";
+import { stat } from "fs";
+import { shopsgoods, shopsinfo } from "./request/api";
+import { toUnicode } from "punycode";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -17,8 +14,9 @@ export default new Vuex.Store({
     categorys: [], //分类数组
     shops: [], //商家列表
     userInfo: {},
+    shopsinfo: {},
     goods: [], //产品列表
-    foodscount:[] 
+    foodcar: []
   },
 
   // 别的组件通过this.$store.commit(方法名调用)
@@ -33,7 +31,7 @@ export default new Vuex.Store({
     },
     re_shops(state, res) {
       //接受商家数组
-      state.goods = res.data
+      state.goods = res.data;
     },
     re_userInfo(state, user) {
       state.userInfo.id = user.id;
@@ -43,9 +41,43 @@ export default new Vuex.Store({
     dele_userfo(state) {
       state.userInfo = {};
     },
-    addfoods(state,item){
+    del_foodcount(state, food) {
+      let b = state.foodcar.find(el => el.name == food.name);
 
-      state.foodscount.push(item)
+      if (b) {
+        if (b.count <= 0) {
+          return;
+        } else {
+          b.count--;
+        }
+      }
+      //删除
+    },
+    add_foodcount(state, food) {
+      if (state.foodcar.length == 0) {
+        state.foodcar.push(food);
+        return;
+      }
+      //   state.foodcar.forEach((el, index, arr) => {
+      //     console.log(el.name == a.name);
+      //     if (el.name == a.name) {
+      //       arr[index].count++;
+      //       return;
+      //     }
+      //   });
+      let b = state.foodcar.find(el => el.name == food.name);
+      if (b) {
+        b.count++;
+      }
+      if (!b) {
+        food.count++;
+        state.foodcar.push(food);
+      }
+      //增加
+    },
+    setshopsinfo(state, res) {
+      console.log(res);
+      state.shopsinfo = res.data;
     }
   },
   getters: {
@@ -55,9 +87,12 @@ export default new Vuex.Store({
     userInfophone: state => {
       return state.userInfo.phone;
     },
-    watchfoods(state,index){
-      // if(!state.foodscount[index]){return false}
-      // return this.foodscount[index] >= 1;
+    foodcount: state => {
+      let num = 0;
+      state.foodcar.forEach(el => {
+        num = num + el.count;
+      });
+      return num;
     }
   },
   actions: {
@@ -69,15 +104,36 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         shopsgoods()
           .then(res => {
-            vs.commit('re_shops', res)
-            resolve()
-            console.log(res)
+            vs.commit("re_shops", res);
+            resolve();
+            console.log(res);
           })
           .catch(err => {
-            Toast('获取数据失败')
+            console.log(err + "获取数据失败");
           });
-      })
-
+      });
+    },
+    updata_foodCount({ commit }, { flag, food }) {
+      // 如果没有count,给食物列表增加一个count属性
+      if (!food.count) {
+        Vue.set(food, "count", 0);
+      }
+      //flag判断加减
+      if (flag) {
+        commit("add_foodcount", food);
+      } else {
+        commit("del_foodcount", food);
+      }
+    },
+    shopinfo({ commit }) {
+      //shopHead请求数据
+      shopsinfo()
+        .then(res => {
+          commit("setshopsinfo", res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 });

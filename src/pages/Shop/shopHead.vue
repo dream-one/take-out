@@ -141,12 +141,13 @@
 </template>
 <script>
 import { shopsinfo } from "../../request/api";
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
       show: false, //底部弹出
-      showtan: false, //中间弹出
-      infodata:{}
+      showtan: false //中间弹出
+
     };
   },
   methods: {
@@ -157,14 +158,13 @@ export default {
       this.showtan = !this.showtan;
     }
   },
-  mounted() {
-    shopsinfo()
-      .then(res => {
-        this.infodata = res.data
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  computed:{
+    ...mapState({
+      infodata:'shopsinfo'
+    })
+  },
+  mounted(){
+    this.$store.dispatch('shopinfo')
   }
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="cartcaontain">
-    <div v-show="cuover" class="reduce">-</div>
-    <div v-show="cuover" class="count">{{$store.state.foodscount}}</div>
-    <div @click="addf" class="add">+</div>
+    <div @click.stop="addf(false)" v-show="food.count" class="reduce">-</div>
+    <div v-show="food.count" class="count">{{food.count}}</div>
+    <div @click.stop="addf(true)" class="add">+</div>
   </div>
 </template>
 
@@ -10,25 +10,26 @@
 import { maoState, mapState } from "vuex";
 export default {
   props: {
-    food: Object,
-    index: Number
+    food: Object
   },
   data() {
     return {
-      foods: 0
+
     };
   },
   methods: {
-    addf() {
-      this.foods += 1;
-      this.$store.commit("addfoods", { index: this.index, foods: this.foods });
+    addf(flag) {
+      this.$store.dispatch('updata_foodCount',{flag,food:this.food})
+      // this.$store.commit("addfoods", {  food: this.food });
     }
   },
   computed: {
     ...mapState(["foodscount"]),
     cuover() {
-    //    return this.$store.getters.watchfoods(this.index)
-    
+
+    },
+    count(){
+
     }
   }
 };

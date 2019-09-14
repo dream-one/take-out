@@ -28,6 +28,7 @@
                 class="food-item bottom-border-1px"
                 v-for="(food,index1) in item.foods"
                 :key="index1"
+                @click.stop="showfood=food,show=true"
               >
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon" />
@@ -42,7 +43,7 @@
                   <div class="price">
                     <span class="now">￥{{food.price}}</span>
                   </div>
-                  <div class="cartcontrol-wrapper"><CartControl :index='index1' :food="food"></CartControl></div>
+                  <div class="cartcontrol-wrapper"><CartControl :food="food"></CartControl></div>
                 </div>
               </li>
             </ul>
@@ -50,11 +51,13 @@
         </ul>
       </div>
     </div>
+    <van-popup v-model="show"><Food :food="showfood"></Food></van-popup>
   </div>
 </template>
 
 <script>
 import BScroll from "better-scroll";
+import Food from './food'
 import CartControl from './carcontor'
 import { Toast } from "vant";
 import { mapState, mapActions } from "vuex";
@@ -68,7 +71,9 @@ export default {
       scrollY: 0, //保存滚动时的Y坐标
       tops: [], //保存每一项li的top
       leftops: [],
-      lefY: 0
+      lefY: 0,
+      show:false,
+      showfood:{}//点击食物列表，要显示的食物信息
     };
   },
   watch: {
@@ -87,7 +92,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["goods",'foodscount'])
+    ...mapState(["goods"])
 
   },
   mounted() {
@@ -154,17 +159,18 @@ export default {
       });
       //3.更新数据
       this.lefttops = texttops;
-      console.log(this.lefttops);
     }
   },
   components:{
-    CartControl
+    CartControl,
+    Food
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
 @import '../../common/stylus/mixins.styl';
+
 
 .goods {
   display: flex;
@@ -179,7 +185,7 @@ export default {
     flex: 0 0 80px;
     width: 80px;
     background: #f3f5f7;
-    height: 66vh;
+    height: 58vh;
     overflow: hidden;
 
     .menu-item {
@@ -224,7 +230,7 @@ export default {
 
   .foods-wrapper {
     flex: 1;
-    height: 66vh;
+    height: 58vh;
 
     .title {
       padding-left: 14px;

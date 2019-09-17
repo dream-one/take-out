@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Head title="深圳龙岗龙城街道">
+    <Head title="好吃外卖">
       <van-icon
         color="#fff"
         size="30"
@@ -9,30 +9,32 @@
         slot="screen"
         name="sousuo"
       />
-      <h5 slot="login" v-if="!userInfo.id">登录|注册</h5>
+      <h5 slot="login" @click="$router.push('/login')" v-if="!userInfo.id">登录|注册</h5>
       <van-icon slot="login" size="30" color="#fff" name="share" v-else></van-icon>
     </Head>
     <!-- 轮播图 -->
-    <van-swipe indicator-color="#02a774">
-      <van-swipe-item>
-        <div>
+
+      <van-swipe indicator-color="#02a774">
+        <van-swipe-item>
+          <div>
+            <ul class="onecontain">
+              <li v-for="(item,index) of imges" :key="index">
+                <img v-lazy='item.image_url' :src="item.image_url" />
+                <span class="food-font">{{item.title}}</span>
+              </li>
+            </ul>
+          </div>
+        </van-swipe-item>
+        <van-swipe-item>
           <ul class="onecontain">
-            <li v-for="(item,index) of imges" :key="index">
-              <img :src="item.image_url" />
+            <li v-for="(item,index) of imges1" :key="index">
+              <img v-lazy='item.image_url' :src="item.image_url" />
               <span class="food-font">{{item.title}}</span>
             </li>
           </ul>
-        </div>
-      </van-swipe-item>
-      <van-swipe-item>
-        <ul class="onecontain">
-          <li v-for="(item,index) of imges1" :key="index">
-            <img :src="item.image_url" />
-            <span class="food-font">{{item.title}}</span>
-          </li>
-        </ul>
-      </van-swipe-item>
-    </van-swipe>
+        </van-swipe-item>
+      </van-swipe>
+   
 
     <div>
       <Shoplist></Shoplist>
@@ -43,6 +45,7 @@
 <script>
 import Head from '../HeadTop/HeadTop.vue'
 import { mapState } from 'vuex'
+
 import Shoplist from '../../components/ShopList/shoplist.vue'
 import { apiAdress, apiGetFood, apiLogin } from '../../request/api'
 import { Toast } from 'vant'

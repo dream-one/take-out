@@ -13,6 +13,7 @@
   * 优化接口数据
   * 简化了不必要的vuex模块的使用
 ## ##
+
 ## 底部导航栏
   1. 在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
   2. 在阿里矢量库中下载项目
@@ -121,3 +122,21 @@
 	3. 定义watch，监听scrollY属性。使用findIndex方法，判断scrolly数值在tops数组哪个区间，将下标传给is
 	4. 使用scrollTo方法，再点击时滚动 ` @click="is = index,fbs.scrollTo(0,-tops[index],300)" `
   
+* 评价组件
+  		
+ 解决bug:
+  1. 当切换全部、满意与不满意按钮时，列表滚动错误，经过排查发现要在数据更新后重新计算滚动 `this.bs.refresh()`
+  2. 还是不行，需要在this.$nextTick回调函数中重新计算，因为这时dom才更新完成
+
+
+## 路由组件懒加载
+
+  解决bug:在router.js文件中修改如下代码，结果发现组件无法渲染。不要加大括号
+
+ 		const Msite = ()=> import('../pages/Msite/Msite.vue')
+
+## 图片懒加载
+
+## Search.vue
+
+## 打包优化

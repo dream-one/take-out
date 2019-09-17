@@ -2,7 +2,7 @@
   <section class="profile">
     <HeaderTop :title="title"></HeaderTop>
     <section class="profile-number">
-      <van-cell url="#/login" link-type="navigateTo" class="profile-link">
+      <van-cell to="/login" link-type="navigateTo" class="profile-link">
         <div class="profile_image">
           <img src="./img/touxiang.jpg" />
         </div>
@@ -60,6 +60,9 @@
         <div class="fuwu">
           <van-cell is-link title="服务中心" :border="true" link-type="navigateTo">
             <van-icon slot="icon" color="red" size="18" name="phone" class="custom-icon" />
+          </van-cell>
+          <van-cell required is-link title="关于我" :border="true" link-type="navigateTo" to="/me">
+            <van-icon slot="icon" color="pink" size="18" name="manager" class="custom-icon" />
           </van-cell>
         </div>
       </div>
@@ -190,7 +193,6 @@ export default {
       position: relative;
       display: block;
       background: #02a774;
-      padding: 20px 10px;
 
       .profile_image {
         float: left;

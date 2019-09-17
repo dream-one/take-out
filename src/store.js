@@ -42,29 +42,25 @@ export default new Vuex.Store({
       state.userInfo = {};
     },
     del_foodcount(state, food) {
+            //删除
       let b = state.foodcar.find(el => el.name == food.name);
-
       if (b) {
-        if (b.count <= 0) {
-          return;
-        } else {
-          b.count--;
-        }
+        b.count--;
       }
-      //删除
+      if (b.count == 0) {
+        let a = state.foodcar.indexOf(b);
+        state.foodcar.splice(a, 1);
+      }
+
     },
     add_foodcount(state, food) {
+          //增加
       if (state.foodcar.length == 0) {
+        food.count++;
         state.foodcar.push(food);
         return;
       }
-      //   state.foodcar.forEach((el, index, arr) => {
-      //     console.log(el.name == a.name);
-      //     if (el.name == a.name) {
-      //       arr[index].count++;
-      //       return;
-      //     }
-      //   });
+
       let b = state.foodcar.find(el => el.name == food.name);
       if (b) {
         b.count++;
@@ -73,11 +69,14 @@ export default new Vuex.Store({
         food.count++;
         state.foodcar.push(food);
       }
-      //增加
+  
     },
     setshopsinfo(state, res) {
-      console.log(res);
       state.shopsinfo = res.data;
+    },
+    delall1(state){
+      state.foodcar.forEach(el=>{el.count=0})
+      state.foodcar = []      
     }
   },
   getters: {

@@ -3,7 +3,7 @@
     <div class="shop-header">
       <nav class="shop-nav">
         <a class="back" @click="$router.back()">
-          <i class="iconfont icon-arrow_left"></i>
+          <van-icon color="#fff" size="24" name="arrow-left" />
         </a>
       </nav>
       <div class="shop-content">
@@ -44,7 +44,7 @@
           <van-icon style="top: 1px;right: -13px;" name="arrow-down"></van-icon>
         </div>
       </div>
-      <van-popup closeable position="bottom" click-overlay="showPopup" v-model="show">
+      <van-popup  position="bottom" v-model="show">
         <div class="activity-sheet">
           <div class="activity-sheet-content">
             <h2 class="activity-sheet-title">优惠活动</h2>

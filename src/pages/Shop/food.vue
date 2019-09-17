@@ -3,7 +3,7 @@
   <!-- // 弹出食物详情组件 -->
   <div class="contain">
     <div class="img-head">
-      <img class="img" :src="this.food.image" alt />
+      <img v-lazy='this.food.image' class="img" :src="this.food.image" alt />
       <p class="foodpanel-desc">{{food.info}}</p>
     </div>
     <div class="title">

@@ -1,7 +1,8 @@
 module.exports = {
     //axios域代理，解决axios跨域问题
-    publicPath: '/',
+    publicPath: './',
     devServer: {
+        port:8085,
         proxy: {
             '': {
                 target: 'http://localhost:4000',

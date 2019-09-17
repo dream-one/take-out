@@ -52,6 +52,7 @@
       </div>
     </div>
     <van-popup v-model="show"><Food :food="showfood"></Food></van-popup>
+     <div class="bottom"><ShopCar></ShopCar></div>
   </div>
 </template>
 
@@ -63,6 +64,7 @@ import { Toast } from "vant";
 import { mapState, mapActions } from "vuex";
 import { constants } from "crypto";
 import { parse } from "path";
+import ShopCar from './shopcar' 
 export default {
   data() {
     return {
@@ -163,14 +165,23 @@ export default {
   },
   components:{
     CartControl,
-    Food
+    Food,
+    ShopCar
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
 @import '../../common/stylus/mixins.styl';
-
+  .bottom{
+    bottom 0
+    overflow hidden
+    background-color #cccccc
+    width 100%
+    height 9vh
+    position fixed
+    z-index 50
+  }
 
 .goods {
   display: flex;
@@ -185,7 +196,7 @@ export default {
     flex: 0 0 80px;
     width: 80px;
     background: #f3f5f7;
-    height: 58vh;
+    height: 66vh;
     overflow: hidden;
 
     .menu-item {
@@ -231,7 +242,7 @@ export default {
   .foods-wrapper {
     flex: 1;
     height: 58vh;
-
+    
     .title {
       padding-left: 14px;
       height: 26px;

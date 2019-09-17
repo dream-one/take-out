@@ -9,7 +9,7 @@
         <li class="shop_li border-1px" v-for="(item,index) in shoplists" :key="index">
           <a @click="$router.push('/shop')">
             <div class="shop_left">
-              <img class="shop_img" :src="BaseUrl+item.image_path" />
+              <img class="shop_img" v-lazy="item.image_path" :src="item.image_path" />
             </div>
             <div class="shop_right">
               <section class="shop_detail_header">

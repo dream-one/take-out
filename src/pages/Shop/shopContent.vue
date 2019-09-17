@@ -3,20 +3,20 @@
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left">
-          <h1 class="score">3.5</h1>
+          <h1 class="score">{{shopsinfo.score}}</h1>
           <div class="title">综合评分</div>
           <div class="rank">高于周边商家86%</div>
         </div>
         <div class="overview-right">
           <div class="score-wrapper">
             <span class="title">服务态度</span>
-            <!-- <Star :rating="4.6" :size="36" />
-            <span class="score">{{shopInfo.serviceScore}}</span>-->
+            <Star :ratingcount="shopsinfo.serviceScore" :size="36" />
+            <span class="score">{{shopsinfo.serviceScore}}</span>
           </div>
           <div class="score-wrapper">
             <span class="title">商品评分</span>
-            <!-- <Star :rating="4.7" :size="36" />
-            <span class="score">{{shopInfo.foodScore}}</span>-->
+            <Star :ratingcount="shopsinfo.foodScore" :size="36" />
+            <span class="score">{{shopsinfo.foodScore}}</span>
           </div>
           <div class="delivery-wrapper">
             <span class="title">送达时间</span>
@@ -26,34 +26,60 @@
       </div>
       <div class="split"></div>
       <div class="ratingselect">
-        <div class="rating-type border-1px">22</div>
+        <div class="rating-type border-1px">
+          <span
+            class="block positive"
+            @click="changeSatisfaction(2)"
+            :class="{active:isSatisfaction===2}"
+          >
+            全部
+            <span class="count">30</span>
+          </span>
+          <span
+            class="block positive"
+            @click="changeSatisfaction(0)"
+            :class="{active:isSatisfaction===0}"
+          >
+            满意
+            <span class="count">28</span>
+          </span>
+          <span
+            class="block negative"
+            @click="changeSatisfaction(1)"
+            :class="{active:isSatisfaction===1}"
+          >
+            不满意
+            <span class="count">2</span>
+          </span>
+        </div>
         <div class="switch on">
-          <span class="iconfont icon-check_circle">O</span>
+          <span class="iconfont icon-check_circle" @click="changeShowTxte">
+            <van-icon name="passed" v-if="onlyTextshow" />
+            <van-icon name="circle" v-else />
+          </span>
           <span class="text">只看有内容的评价</span>
         </div>
       </div>
       <div class="rating-wrapper">
-        <ul>
-          <li class="rating-item">
+        <ul class="cr">
+          <li v-for="(item,index) in filterContent " :key="index" class="rating-item">
             <div class="avatar">
-              <img
-                width="28"
-                height="28"
-                src="http://static.galileo.xiaojukeji.com/static/tms/default_header.png"
-              />
+              <img width="28" height="28" :src="item.avatar" />
             </div>
             <div class="content">
-              <h1 class="name">gffgfg</h1>
+              <h1 class="name">{{item.username}}</h1>
               <div class="star-wrapper">
-                <!-- <Star :rating="item.score" :size="24" /> -->
-                <span class="delivery">4354353</span>
+                <Star :ratingcount="item.score" :size="24" />
+                <span class="delivery">{{item.deliveryTime}}</span>
               </div>
-              <p class="text">ffffffffff</p>
+              <p class="text">{{item.text}}</p>
               <div class="recommend">
-                <span class="iconfont icon-thumb_up"></span>
-                <!-- <span class="item" v-for="tit in item.recommend">{{tit}}</span> -->
+                <span class="iconfont icon-thumb_down">
+                  <van-icon color="#ff9900" size="9px" name="good-job-o" />
+                </span>
+                <span class="item" v-for="(items,index) in item.recommend" :key="index">{{items}}</span>
               </div>
-              <div class="time">110</div>
+              <div class="time">{{item.rateTime | dateString}}</div>
             </div>
           </li>
         </ul>
@@ -62,7 +88,79 @@
   </div>
 </template>
 <script>
-export default {};
+import Star from '../../components/ShopList/stars/star'
+import { mapState } from 'vuex'
+import { shopsratings } from '../../request/api.js'
+import BScroll from '@better-scroll/core'
+export default {
+  data() {
+    return {
+      onlyTextshow: false, //是否显示有内容的评论
+      ratings: [], //存放评论数据
+      isSatisfaction: 2 //满意过滤
+    }
+  },
+  components: {
+    Star
+  },
+  methods: {
+    changeSatisfaction(num) {
+      this.isSatisfaction = num
+      this.$nextTick(() => {
+        this.bs.refresh()
+      })
+    },
+    changeShowTxte() {
+      this.onlyTextshow = !this.onlyTextshow
+      this.$nextTick(() => {
+        this.bs.refresh()
+      })
+    }
+  },
+  mounted() {
+    shopsratings()
+      .then(res => {
+        this.ratings = res.data
+        this.$nextTick(() => {
+          this.bs = new BScroll('.ratings', { click: true })
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  computed: {
+    ...mapState(['shopsinfo']),
+    filterContent() {
+      // 过滤数组
+      // 判断条件：onlyTextshow true/false 是否显示有文本的
+      // isSatisfaction 0/1/2   满意/不满意/全部
+      return this.ratings.filter(item => {
+        if (this.onlyTextshow == true) {
+          if (this.isSatisfaction == 0) {
+            return item.rateType == 0 && item.text.length > 0
+          }
+          if (this.isSatisfaction == 1) {
+            return item.rateType == 1 && item.text.length > 0
+          }
+          if (this.isSatisfaction == 2) {
+            return item.text.length > 0
+          }
+        } else {
+          if (this.isSatisfaction == 0) {
+            return item.rateType == 0
+          }
+          if (this.isSatisfaction == 1) {
+            return item.rateType == 1
+          }
+          if (this.isSatisfaction == 2) {
+            return true
+          }
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
@@ -75,11 +173,12 @@ export default {};
   width: 100%;
   overflow: hidden;
   background: #fff;
-  top 6vh
-  height 70vh
+  top: 6vh;
+  height: 70vh;
+
   .overview {
     display: flex;
-    padding: 18px 0;
+    padding: 18px 5px;
 
     .overview-left {
       flex: 0 0 137px;
@@ -98,6 +197,7 @@ export default {};
         line-height: 28px;
         font-size: 24px;
         color: rgb(255, 153, 0);
+        margin-top -2px
       }
 
       .title {
@@ -116,7 +216,7 @@ export default {};
 
     .overview-right {
       flex: 1;
-      padding: 6px 0 6px 24px;
+      padding: 6px 0 6px 18px;
 
       @media only screen and (max-width: 320px) {
         padding-left: 6px;
@@ -180,7 +280,6 @@ export default {};
   .rating-type {
     padding: 18px 0;
     margin: 0 18px;
-   
 
     .block {
       display: inline-block;

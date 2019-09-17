@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="prompt">
-      <span>温馨提示：未注册就登录的默认注册</span>
+      <span class="me" @click="$router.replace('/me')">关于我</span>
     </div>
   </body>
 </div>
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     al() {
-      this.$router.back(-1)
+      this.$router.go(-1)
     },
     btn2() {
       const T = this
@@ -219,6 +219,9 @@ export default {
 <style lang="scss" scoped>
 .box {
   position: relative;
+}
+.me{
+  margin: 28vw
 }
 img:nth-child(2) {
   top: -3%;
@@ -426,8 +429,8 @@ input::-webkit-inner-spin-button {
 
 .prompt {
   position: absolute;
-
   margin: 45% 15%;
+  color: #7e8ba3
 }
 </style>
 

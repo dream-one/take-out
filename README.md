@@ -20,9 +20,14 @@
   项目过程中，多查文档，善用谷歌。解决了一个BUG要记录下来，防止以后重复踩坑。
 ## ##
 
-## 项目预览
+## 部分页面预览
 
+![个人界面](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/pro.PNG?raw=true)
+![食品选择](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/shop.PNG?raw=true)
+![首页](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%8D%95%E8%8E%B7.PNG?raw=true)
 
+## 技术选型
+![](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%B5%81%E7%A8%8B%E5%9B%BE.PNG?raw=true)
 ## 底部导航栏
   1. 在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
   2. 在阿里矢量库中下载项目
@@ -145,7 +150,8 @@
  		const Msite = ()=> import('../pages/Msite/Msite.vue')
 
 ## 图片懒加载
-
+vant有专门的组件
 ## Search.vue
 
 ## 打包优化
+  在开发环境下设置的跨域代理，生产环境是不认的。

@@ -14,27 +14,26 @@
     </Head>
     <!-- 轮播图 -->
 
-      <van-swipe indicator-color="#02a774">
-        <van-swipe-item>
-          <div>
-            <ul class="onecontain">
-              <li v-for="(item,index) of imges" :key="index">
-                <img v-lazy='item.image_url' :src="item.image_url" />
-                <span class="food-font">{{item.title}}</span>
-              </li>
-            </ul>
-          </div>
-        </van-swipe-item>
-        <van-swipe-item>
+    <van-swipe indicator-color="#02a774">
+      <van-swipe-item>
+        <div>
           <ul class="onecontain">
-            <li v-for="(item,index) of imges1" :key="index">
-              <img v-lazy='item.image_url' :src="item.image_url" />
+            <li v-for="(item,index) of imges" :key="index">
+              <img v-lazy="item.image_url" :src="item.image_url" />
               <span class="food-font">{{item.title}}</span>
             </li>
           </ul>
-        </van-swipe-item>
-      </van-swipe>
-   
+        </div>
+      </van-swipe-item>
+      <van-swipe-item>
+        <ul class="onecontain">
+          <li v-for="(item,index) of imges1" :key="index">
+            <img v-lazy="item.image_url" :src="item.image_url" />
+            <span class="food-font">{{item.title}}</span>
+          </li>
+        </ul>
+      </van-swipe-item>
+    </van-swipe>
 
     <div>
       <Shoplist></Shoplist>
@@ -58,16 +57,24 @@ export default {
     }
   },
   mounted() {
-    this.test()
+    this.$nextTick(()=>{this.test()})
   },
   methods: {
     test() {
       apiGetFood()
         .then(res => {
-          this.imges = res.data.slice(0, res.data.length / 2)
-          this.imges1 = res.data.slice(8, res.data.length)
+          if (res.code==0) {
+            this.imges = res.data.slice(0, res.data.length / 2)
+            this.imges1 = res.data.slice(8, res.data.length)
+          }else{
+            console.log(res)
+            console.log('没有获取到数据')
+          }
         })
-        .catch(err => Toast('数据获取失败' + err))
+        .catch(err => {
+          console.log(err)
+          Toast('数据获取失败')
+        })
     }
   },
   components: {

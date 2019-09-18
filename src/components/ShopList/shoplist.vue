@@ -74,7 +74,7 @@ export default {
         res => {
           this.shoplists = res.data
         }
-      )
+      ).catch(console.log('shopslist获取失败'))
     }
   },
   computed: {

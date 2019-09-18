@@ -45,20 +45,20 @@
 
     <section>
       <div class="contain">
-        <van-cell is-link title="我的卡包" link-type="navigateTo">
+        <van-cell @click="tishi" is-link title="我的卡包" link-type="navigateTo">
           <van-icon slot="icon" color="green" size="18" name="card" class="custom-icon" />
         </van-cell>
 
-        <van-cell is-link title="积分商城  " link-type="navigateTo">
+        <van-cell @click="tishi" is-link title="积分商城  " link-type="navigateTo">
           <van-icon slot="icon" name="shop-collect" size="18" color="orange" class="custom-icon" />
         </van-cell>
 
-        <van-cell is-link title="奖励勋章" link-type="navigateTo">
+        <van-cell @click="tishi" is-link title="奖励勋章" link-type="navigateTo">
           <van-icon slot="icon" color="red" size="18" name="award" class="custom-icon" />
         </van-cell>
 
         <div class="fuwu">
-          <van-cell is-link title="服务中心" :border="true" link-type="navigateTo">
+          <van-cell @click="tishi" is-link title="服务中心" :border="true" link-type="navigateTo">
             <van-icon slot="icon" color="red" size="18" name="phone" class="custom-icon" />
           </van-cell>
           <van-cell required is-link title="关于我" :border="true" link-type="navigateTo" to="/me">
@@ -116,6 +116,9 @@ export default {
         this.$store.commit('dele_userfo')
         Toast('退出成功')
       })
+    },
+    tishi(){
+      Toast('暂未开发..')
     }
   }
 }

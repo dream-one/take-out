@@ -140,7 +140,6 @@
   </div>
 </template>
 <script>
-import { shopsinfo } from "../../request/api";
 import { mapState } from 'vuex';
 export default {
   data() {

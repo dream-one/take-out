@@ -9,7 +9,7 @@ module.exports = {
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-
+                      //直接用'api/接口名'进行请求.
                 }
             }
         }

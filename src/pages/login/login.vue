@@ -72,7 +72,6 @@
 <script>
 import Head from '../HeadTop/HeadTop'
 import { Dialog, Toast } from 'vant'
-import { setTimeout, clearInterval } from 'timers'
 import { apiSendCode, apiLogin, apiPhoneLogin } from '../../request/api'
 export default {
   data() {
@@ -203,7 +202,7 @@ export default {
               this.$router.replace('/profile#/profile')
             })
             .catch(err => {
-              Toast('登录请求失败')
+              Toast('登录请求失败'+err)
             })
         }
       }

@@ -11,7 +11,9 @@
   * mogodb数据库的安装以及启用
   * HTML/CSS/JS+ES6
   * vue相关技术
-  这个项目基于我个人的理解，做了如下修改：
+  * 了解node.js
+ 
+在这个项目中，我：
   * 使用Vue cli3脚手架搭建项目
   * 基于vant-ui组件库搭建页面
   * 简化了get/post请求封装，独立管理api
@@ -31,15 +33,18 @@
 ![](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%B5%81%E7%A8%8B%E5%9B%BE.PNG?raw=true)
 
 # 项目开始
+  1. 安装vue cli3并创建项目
+  2. 创建git相关
 ## 底部导航栏
-  1. 在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
-  2. 在阿里矢量库中下载项目
+  1. 安装vant组件库，在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
+  2. 在阿里矢量库中选好图标，下载项目
   3. 将下载好的文件放入 'src/assets/css'目录中
   4. 在main.js中导入iconfont.css
   5. 引入Icon `import {Icon} from 'vant'`
   6. 对照类名使用 
 
 ## 顶部导航栏组件
+由于每个页面顶部导航栏不一样，所以将其抽离成一个组件
 1. 单独建立HeadTop.vue组件
 2. 使用 van-nav-bar标签  
 3. 由于每个路由都不一样，需使用插槽 用法参照vant及vue.js文档。
@@ -55,7 +60,7 @@
 
 ## 服务器
 1. 启动mongodb服务器
-2. 解压目录下的take-server文件夹并`npm start`
+2. 解压目录下的take-server（已上传）压缩包并`npm start`
 ##
 ### 测试后台服务器
 1. 安装axios `install axios`
@@ -91,7 +96,6 @@
  3. 全星的个数为评分的取整
  4. 灰星的个数 = 5 - 半星个数-全星个数
 
- 这个地方自己想的话确实比较难搞，但是一点拨就好了。将来面试可以拿这个点说一说
 
 
 ## Login.vue

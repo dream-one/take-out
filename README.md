@@ -9,9 +9,10 @@
   开始之前需要了解的前置技术：
   * Git
   * mogodb数据库的安装以及启用
-
+  * HTML/CSS/JS+ES6
+  * vue相关技术
   这个项目基于我个人的理解，做了如下修改：
-  * 使用了较新的Vue cli3脚手架搭建项目
+  * 使用Vue cli3脚手架搭建项目
   * 基于vant-ui组件库搭建页面
   * 简化了get/post请求封装，独立管理api
   * 优化接口数据
@@ -28,6 +29,8 @@
 
 ## 技术选型
 ![](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%B5%81%E7%A8%8B%E5%9B%BE.PNG?raw=true)
+
+# 项目开始
 ## 底部导航栏
   1. 在main.js引入vant ui。在Footer.vue中引入van-tabbar标签
   2. 在阿里矢量库中下载项目

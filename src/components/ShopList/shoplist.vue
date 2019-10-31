@@ -15,9 +15,9 @@
               <section class="shop_detail_header">
                 <h4 class="shop_title ellipsis">{{item.name}}</h4>
                 <ul class="shop_detail_ul">
-                  <li class="supports">{{ item.activities[0].icon_name }}</li>
-                  <li class="supports">{{ item.activities[0].bao }}</li>
-                  <li class="supports">{{ item.activities[0].zhun }}</li>
+                  <li class="supports">减</li>
+                  <li class="supports">保</li>
+                  <li class="supports">准</li>
                 </ul>
               </section>
               <section class="shop_rating_order">
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       shoplists: [],
-      BaseUrl: 'http://localhost:4000'
+      baseurl: 'http://elm.cangdu.org/img/'
     }
   },
   mounted: function() {
@@ -70,11 +70,15 @@ export default {
   },
   methods: {
     getShopList() {
-      apiGetShopList({ latitude: '40.10038', longitude: '116.36867' }).then(
-        res => {
-          this.shoplists = res.data
-        }
-      ).catch(console.log('shopslist获取失败'))
+      apiGetShopList({ latitude: '40.10038', longitude: '116.36867' })
+        .then(res => {
+          console.log(res)
+          res.forEach(element => {
+            element.image_path = this.baseurl + element.image_path
+          })
+          this.shoplists = res
+        })
+        .catch(console.log('shopslist获取失败'))
     }
   },
   computed: {

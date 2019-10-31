@@ -3,20 +3,20 @@
 import { get, post } from "./htp"; //引入get与post
 
 //根据经纬度获取位置,参数是经纬度字符串。如：('15.066,53.538')
-export const apiAdress = p => get("/position/" + p);
+export const apiAdress = geohash => get(`/v2/pois/:${geohash}`);
 
 //获取食物信息
-export const apiGetFood = () => get("/index_category");
+export const apiGetFood = () => get("/v2/index_entry");
 
 //根据经纬度获取商家列表
 //p对象：{latitude:'123',longitude:'234'}
-export const apiGetShopList = p => get("/shops", p);
+export const apiGetShopList = p => get("/shopping/restaurants", p);
 
 //根据经纬度和关键字搜索商铺列表  p:{geohash:'123,456',ketword=test}
 export const apiSearchShopList = p => get("/search_shops", p);
 
 //获取一次性验证码
-export const apiGetOnceCode = () => get("/captcha");
+export const apiGetOnceCode = () => get("/v1/captchas");
 
 //用户名密码登陆
 // |参数		|是否必选 |类型     |说明
@@ -39,7 +39,7 @@ export const apiPhoneLogin = p => post("/login_sms", p);
 export const apiSendCode = p => get("/sendcode", p);
 
 //根据回话获取用户信息
-export const apiUserinfo = () => get("/userinfo");
+export const apiUserinfo = () => get("/v1/user");
 
 //用户登出
 export const apiOut = () => get("/logout");

@@ -53,28 +53,36 @@ export default {
   data() {
     return {
       imges: [],
-      imges1: []
+      imges1: [],
+      baseurl: 'https://fuss10.elemecdn.com'
     }
   },
   mounted() {
-    this.$nextTick(()=>{this.test()})
+    this.$nextTick(() => {
+      this.test()
+    })
   },
   methods: {
     test() {
-      apiGetFood()
-        .then(res => {
-          if (res.code==0) {
-            this.imges = res.data.slice(0, res.data.length / 2)
-            this.imges1 = res.data.slice(8, res.data.length)
-          }else{
-            console.log(res)
-            console.log('没有获取到数据')
-          }
+      apiGetFood().then(res => {
+        // if (res.code == 0) {
+        //   this.imges = res.data.slice(0, res.data.length / 2)
+        //   this.imges1 = res.data.slice(8, res.data.length)
+        // } else {
+        //   console.log(res)
+        //   console.log('没有获取到数据')
+        // }
+        console.log(res)
+        res.forEach(element => {
+          element.image_url = this.baseurl + element.image_url
         })
-        .catch(err => {
-          console.log(err)
-          Toast('数据获取失败')
-        })
+        this.imges = res.slice(0, res.length / 2)
+        this.imges1 = res.slice(8, res.length)
+      })
+
+      apiAdress('31.22967,121.4762').then(res => {
+        // console.log(res)
+      })
     }
   },
   components: {
@@ -137,9 +145,7 @@ li {
   width: 15%;
   height: 32%;
   text-align: center;
-}
 
-li {
   .food-font {
     font-size: 9px;
     display: inline-block;

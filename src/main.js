@@ -33,6 +33,7 @@ Viewer.setDefaults({
     url: "data-source"
   }
 });
+axios.defaults.baseURL = 'https://elm.cangdu.org'
 Vue.prototype.axios = axios;
 
 import "./assets/css/iconfont.css";

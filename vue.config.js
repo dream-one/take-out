@@ -1,11 +1,14 @@
 module.exports = {
     //axios域代理，解决axios跨域问题
-    publicPath: './',
+    
+    publicPath:process.env.NODE_ENV === 'production'
+    ? '/my-project/'
+    : '/',
     devServer: {
         port:8085,
         proxy: {
             '': {
-                target: 'http://localhost:4000',
+                target: 'https://elm.cangdu.org',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

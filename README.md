@@ -23,11 +23,8 @@
   项目过程中，多查文档，善用谷歌。解决了一个BUG要记录下来，防止以后重复踩坑。
 ## ##
 
-## 部分页面预览
-
-![个人界面](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/pro.PNG?raw=true)
-![食品选择](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/shop.PNG?raw=true)
-![首页](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%8D%95%E8%8E%B7.PNG?raw=true)
+## 预览
+[点击这里](https://dream-one.github.io/vue-ment/dist/index.html#/msite)
 
 ## 技术选型
 ![](https://github.com/dream-one/take-out/blob/master/public/%E6%88%AA%E5%9B%BE/%E6%B5%81%E7%A8%8B%E5%9B%BE.PNG?raw=true)

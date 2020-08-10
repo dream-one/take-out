@@ -3,18 +3,8 @@
     <HeadTop title="欢迎联系">
       <van-icon @click="$router.go(-1)" name="arrow-left" size="25" slot="screen" color="#fff" />
     </HeadTop>
-    <div class="imgTop" @click="upda()">
-      <img class="small" src="./img/wei1xin.jpg" />
-      <van-popup :close-on-click-overlay="false" v-model="show">
-        <img class="larget" src="./img/wei1xin.jpg" />
-      </van-popup>
-      <span class="click">点击查看大图</span>
-    </div>
-
     <div class="con">
       <van-cell-group>
-        <van-cell title="邮箱" value="zjcoder1999@gmail.com" />
-        <van-cell title="电话号码" value="15112695092" />
         <van-cell title="项目地址" is-link value="前往" url="https://github.com/dream-one/take-out" />
         <van-cell title="github个人主页" is-link value="前往" url="https://github.com/dream-one" />
       </van-cell-group>
